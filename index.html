@@ -450,7 +450,7 @@
 
     .monogram:focus {
       outline: none;
-      box-shadow: 0 0 0 6px rgba(212,175,55,0.12), 0 0 0 2px rgba(212,175,55,0.18) inset;
+      box-shadow: 0 0 0 6px rgba(212, 175, 55, 0.12), 0 0 0 2px rgba(212, 175, 55, 0.18) inset;
       border-radius: 50%;
     }
 
@@ -523,6 +523,102 @@
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.6s var(--ease-luxury);
+    }
+
+    /* ================================================================
+   DOOR SPLIT ANIMATION — two panels that slide apart like grand doors
+   ================================================================ */
+    .door-panel {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 50%;
+      z-index: 60;
+      pointer-events: none;
+      will-change: transform;
+      overflow: hidden;
+      display: none;
+      /* hidden until door animation is triggered */
+    }
+
+    .door-panel--left {
+      left: 0;
+      background:
+        linear-gradient(135deg, rgba(212, 175, 55, .07) 0%, transparent 50%),
+        linear-gradient(180deg, rgba(5, 5, 5, 0.55), rgba(5, 5, 5, 0.55)),
+        url('./bg1.png');
+      background-size: cover;
+      background-position: left center;
+      border-right: 1px solid rgba(212, 175, 55, .35);
+      transform: translateX(0);
+      transition: transform 0.95s cubic-bezier(.77, 0, .18, 1);
+    }
+
+    .door-panel--right {
+      right: 0;
+      background:
+        linear-gradient(225deg, rgba(212, 175, 55, .07) 0%, transparent 50%),
+        linear-gradient(180deg, rgba(5, 5, 5, 0.55), rgba(5, 5, 5, 0.55)),
+        url('./bg1.png');
+      background-size: cover;
+      background-position: right center;
+      border-left: 1px solid rgba(212, 175, 55, .35);
+      transform: translateX(0);
+      transition: transform 0.95s cubic-bezier(.77, 0, .18, 1);
+    }
+
+    /* Gold seam glow at the center split */
+    .door-panel--left::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(180deg,
+          transparent 0%,
+          rgba(212, 175, 55, .6) 25%,
+          var(--gold-soft) 50%,
+          rgba(212, 175, 55, .6) 75%,
+          transparent 100%);
+      box-shadow: 0 0 12px rgba(212, 175, 55, .5), 0 0 28px rgba(212, 175, 55, .25);
+      pointer-events: none;
+    }
+
+    /* Decorative ornament on the left door */
+    .door-panel--left::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      right: 18px;
+      transform: translateY(-50%);
+      width: 32px;
+      height: 80px;
+      background: linear-gradient(180deg, transparent, rgba(212, 175, 55, .18) 30%, rgba(212, 175, 55, .28) 50%, rgba(212, 175, 55, .18) 70%, transparent);
+      border: 1px solid rgba(212, 175, 55, .22);
+      pointer-events: none;
+    }
+
+    /* Decorative ornament on the right door */
+    .door-panel--right::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 18px;
+      transform: translateY(-50%);
+      width: 32px;
+      height: 80px;
+      background: linear-gradient(180deg, transparent, rgba(212, 175, 55, .18) 30%, rgba(212, 175, 55, .28) 50%, rgba(212, 175, 55, .18) 70%, transparent);
+      border: 1px solid rgba(212, 175, 55, .22);
+      pointer-events: none;
+    }
+
+    .door-panel.door-open-left {
+      transform: translateX(-100%);
+    }
+
+    .door-panel.door-open-right {
+      transform: translateX(100%);
     }
 
     .invite-card {
@@ -2226,6 +2322,10 @@
           </div>
         </div>
       </div>
+
+      <!-- DOOR PANELS — revealed only during the door-open animation -->
+      <div id="doorLeft" class="door-panel door-panel--left" aria-hidden="true"></div>
+      <div id="doorRight" class="door-panel door-panel--right" aria-hidden="true"></div>
     </div>
 
     <!-- ============================================================
@@ -2236,7 +2336,7 @@
 
         <!-- SCREEN 3 — HERO -->
         <section class="screen hero" id="screen-hero">
-           <div class="screen-inner" style="padding-bottom:100px;">
+          <div class="screen-inner" style="padding-bottom:100px;">
             <div class="eyebrow reveal-up" data-reveal="hero">Together with their families</div>
             <div class="hero-names" style="margin-top:14px; display:flex; flex-direction:column; align-items:center;">
               <span class="display-xl name-line" id="brideNameHero">Archana</span>
@@ -2269,7 +2369,7 @@
 
         <!-- SCREEN 4 — GREETING -->
         <section class="screen" id="screen-greeting">
-           <div class="screen-inner reveal-up">
+          <div class="screen-inner reveal-up">
             <div class="glass-card greeting-card">
               <svg class="icon" viewBox="0 0 24 24">
                 <use href="#icon-infinity" />
@@ -2285,7 +2385,7 @@
 
         <!-- SCREEN 5 — WEDDING TIMELINE -->
         <section class="screen" id="screen-timeline">
-           <div class="screen-inner">
+          <div class="screen-inner">
             <div class="eyebrow">The Celebration</div>
             <h2 class="display-lg" style="margin-top:6px;">Wedding Timeline</h2>
           </div>
@@ -2342,22 +2442,22 @@
 
         <!-- SCREEN 6 — COUPLE GALLERY -->
         <section class="screen" id="screen-gallery">
-           <div class="screen-inner">
+          <div class="screen-inner">
             <div class="eyebrow">Captured Moments</div>
             <h2 class="display-lg" style="margin-top:6px;">Our Gallery</h2>
           </div>
           <div class="gallery-grid">
             <div class="gallery-item" data-index="0">
               <img data-src="./front.png" alt="Couple photo 1" loading="lazy">
-              
+
             </div>
             <div class="gallery-item" data-index="1">
               <img data-src="./timelast.png" alt="Couple photo 2" loading="lazy">
- 
+
             </div>
             <div class="gallery-item" data-index="2">
               <img data-src="./date.png" alt="Couple photo 3" loading="lazy">
-              
+
             </div>
             <div class="gallery-item" data-index="3">
               <img data-src="./timeline.png" alt="Couple photo 4" loading="lazy">
@@ -2367,7 +2467,7 @@
 
         <!-- SCREEN 7 — LOVE STORY -->
         <section class="screen" id="screen-lovestory">
-           <div class="screen-inner">
+          <div class="screen-inner">
             <div class="eyebrow">A Little Journey</div>
             <h2 class="display-lg" style="margin-top:6px;">Love Story</h2>
           </div>
@@ -2417,7 +2517,7 @@
 
         <!-- SCREEN 8 — COUNTDOWN -->
         <section class="screen" id="screen-countdown">
-           <div class="screen-inner">
+          <div class="screen-inner">
             <div class="eyebrow">Counting Every Moment</div>
             <h2 class="display-lg" style="margin-top:6px;">Until We Say<br>"I Do"</h2>
             <div class="countdown-grid">
@@ -2439,7 +2539,7 @@
 
         <!-- SCREEN 9 — VENUE -->
         <section class="screen" id="screen-venue">
-           <div class="screen-inner reveal-up">
+          <div class="screen-inner reveal-up">
             <div class="eyebrow">Where It All Happens</div>
             <h2 class="display-lg" style="margin:6px 0 18px;">The Venue</h2>
             <div class="venue-image">
@@ -2471,13 +2571,12 @@
 
         <!-- SCREEN 10 — MAP -->
         <section class="screen" id="screen-map">
-           <div class="screen-inner reveal-up">
+          <div class="screen-inner reveal-up">
             <div class="eyebrow">Find Your Way</div>
             <h2 class="display-lg" style="margin:6px 0 18px;">Getting There</h2>
             <div class="map-placeholder">
-              <iframe
-                src="https://www.google.com/maps?q=12.9182741,80.178667&z=17&output=embed"
-                allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+              <iframe src="https://www.google.com/maps?q=12.9182741,80.178667&z=17&output=embed" allowfullscreen=""
+                loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
               <!-- <div class="map-pin-drop">
                 <svg class="icon" viewBox="0 0 24 24">
                   <use href="#icon-location" fill="var(--gold)" />
@@ -2498,7 +2597,7 @@
 
         <!-- SCREEN 11 — CALENDAR -->
         <section class="screen" id="screen-calendar">
-           <div class="screen-inner reveal-up">
+          <div class="screen-inner reveal-up">
             <div class="calendar-icon-wrap"><svg class="icon" viewBox="0 0 24 24">
                 <use href="#icon-calendar" />
               </svg></div>
@@ -2517,7 +2616,7 @@
 
         <!-- SCREEN 12 — PARENTS / FAMILY -->
         <section class="screen" id="screen-family">
-           <div class="screen-inner">
+          <div class="screen-inner">
             <div class="eyebrow">With Love &amp; Blessings</div>
             <h2 class="display-lg" style="margin-top:6px;">Our Families</h2>
           </div>
@@ -2539,7 +2638,7 @@
 
         <!-- SCREEN 13 — RSVP -->
         <section class="screen" id="screen-rsvp">
-           <div class="screen-inner reveal-up">
+          <div class="screen-inner reveal-up">
             <div class="eyebrow">Share Your Joy</div>
             <h2 class="display-lg" style="margin:6px 0 14px;">Send Your Wishes</h2>
             <form class="wishes-form" id="wishesForm" autocomplete="off">
@@ -2560,7 +2659,7 @@
 
         <!-- SCREEN 14 — THANK YOU -->
         <section class="screen thankyou-screen" id="screen-thankyou">
-           <div class="thankyou-vignette" id="thankyouVignette"></div>
+          <div class="thankyou-vignette" id="thankyouVignette"></div>
           <div class="screen-inner">
             <svg class="icon" viewBox="0 0 24 24" style="width:30px;height:30px;margin-bottom:10px;">
               <use href="#icon-infinity" />
@@ -2577,7 +2676,7 @@
         </section>
 
         <!-- DATE IMAGE BOTTOM -->
-       
+
 
       </div>
     </div>
@@ -2635,9 +2734,9 @@
       var WEDDING = {
         brideName: 'Archana',
         groomName: 'Balan',
-        weddingDateTime: '2026-12-12T19:00:00',
-        displayDate: '12th December 2026',
-        displayTime: '7:00 PM Onwards',
+        weddingDateTime: '2026-09-13T07:00:00',
+        displayDate: '13th September 2026',
+        displayTime: '7:00 AM Onwards',
         venueName: 'AGS Event Hall',
         venueAddress: 'AGS Event Hall, Velachery, Chennai, Tamil Nadu, India',
         venueMapsQuery: 'AGS Event Hall, Velachery, Chennai, Tamil Nadu, India',
@@ -2834,112 +2933,111 @@
           var msgIndex = Math.min(messages.length - 1, Math.floor(progress * messages.length));
           label.textContent = messages[msgIndex];
           if (progress < 1) {
-              requestAnimationFrame(tick);
-            } else {
-              var loaderEl = document.getElementById('loader');
+            requestAnimationFrame(tick);
+          } else {
+            var loaderEl = document.getElementById('loader');
 
-              /* After loading completes, show a Tap-to-Open CTA inside the circular monogram
-                 Keep the loader visible until the user explicitly taps the circle (accessibility: allow Enter/Space). */
-              var monogramEl = document.querySelector('.monogram');
-              var monogramLetters = document.querySelector('.monogram-letters');
-              var originalMonogram = monogramLetters ? monogramLetters.textContent : '';
+            /* After loading completes, show a Tap-to-Open CTA inside the circular monogram
+               Keep the loader visible until the user explicitly taps the circle (accessibility: allow Enter/Space). */
+            var monogramEl = document.querySelector('.monogram');
+            var monogramLetters = document.querySelector('.monogram-letters');
+            var originalMonogram = monogramLetters ? monogramLetters.textContent : '';
 
-              if (monogramEl && monogramLetters) {
-                var initials = (WEDDING.brideName ? WEDDING.brideName.charAt(0) : 'A') + ' ' + (WEDDING.groomName ? WEDDING.groomName.charAt(0) : 'B');
-                monogramLetters.textContent = 'Tap';
-                monogramLetters.style.cursor = 'pointer';
-                monogramEl.style.pointerEvents = 'auto';
-                monogramLetters.style.pointerEvents = 'auto';
-                monogramEl.setAttribute('tabindex', '0');
-                monogramEl.setAttribute('role', 'button');
-                monogramEl.setAttribute('aria-label', 'Open invitation — tap to play music');
-                // focus so keyboard users can activate immediately
-                try { monogramEl.focus({ preventScroll: true }); } catch (e) { monogramEl.focus(); }
+            if (monogramEl && monogramLetters) {
+              var initials = (WEDDING.brideName ? WEDDING.brideName.charAt(0) : 'A') + ' ' + (WEDDING.groomName ? WEDDING.groomName.charAt(0) : 'B');
+              monogramLetters.textContent = 'Tap';
+              monogramLetters.style.cursor = 'pointer';
+              monogramEl.style.pointerEvents = 'auto';
+              monogramLetters.style.pointerEvents = 'auto';
+              monogramEl.setAttribute('tabindex', '0');
+              monogramEl.setAttribute('role', 'button');
+              monogramEl.setAttribute('aria-label', 'Open invitation — tap to play music');
+              // focus so keyboard users can activate immediately
+              try { monogramEl.focus({ preventScroll: true }); } catch (e) { monogramEl.focus(); }
 
-                function activateFromGesture() {
-                  try { console.log('activateFromGesture triggered'); } catch(e) {}
-                  monogramEl.classList.add('activated');
-                  var audio = document.getElementById('bgMusic');
-                  try {
-                    if (audio) {
-                      if (!audio.getAttribute('src')) audio.setAttribute('src', './bgBgm.mp3');
-                      audio.muted = false;
-                      audio.volume = 0.5;
-                      var p = audio.play();
-                      if (p && typeof p.then === 'function') p.catch(function () { });
-                    }
-                  } catch (e) { }
-
-                  // restore monogram initials and proceed
-                  monogramLetters.textContent = initials;
-                  monogramLetters.style.cursor = '';
-                  monogramEl.removeAttribute('tabindex');
-                  monogramEl.removeAttribute('role');
-                  monogramEl.removeEventListener('click', onClick);
-                  monogramEl.removeEventListener('keydown', onKeyDown);
-
-                  // hide loader and continue to the splash + unlock flow
-                  loaderEl.classList.add('hidden');
-                  showSplashThenUnlock();
-                  if (callback) callback();
-
-                  // After the splash animation, keep the view pinned to the hero screen instead of jumping to a later button.
-                  setTimeout(function () {
-                    try {
-                      var sc = document.getElementById('scrollArea');
-                      if (sc) {
-                        sc.scrollTop = 0;
-                        if (lenis) {
-                          lenis.scrollTo(0, { duration: 0 });
-                        }
-                        sc.tabIndex = -1;
-                        sc.focus({ preventScroll: true });
-                      }
-                    } catch (err) { }
-                  }, 900);
-                }
-
-                function onClick() { activateFromGesture(); }
-                function onKeyDown(e) {
-                  // Allow Enter, Space, or Tab to activate the invitation from the monogram.
-                  if (e.key === 'Enter' || e.key === ' ' || e.key === 'Tab') {
-                    e.preventDefault();
-                    activateFromGesture();
-
-                    // If user pressed Tab, move focus to the next focusable element after activation
-                    if (e.key === 'Tab') {
-                      setTimeout(function () {
-                        try {
-                          var focusables = Array.prototype.slice.call(document.querySelectorAll('a,button,input,textarea,select,[tabindex]:not([tabindex="-1"])'));
-                          focusables = focusables.filter(function (el) { return !!(el.offsetParent || el === document.body) && !el.disabled; });
-                          var idx = focusables.indexOf(monogramEl);
-                          var next = focusables[(idx + 1) >= 0 ? (idx + 1) : 0];
-                          if (next && typeof next.focus === 'function') next.focus();
-                        } catch (err) { }
-                      }, 900);
-                    }
+              function activateFromGesture() {
+                try { console.log('activateFromGesture triggered'); } catch (e) { }
+                monogramEl.classList.add('activated');
+                var audio = document.getElementById('bgMusic');
+                try {
+                  if (audio) {
+                    if (!audio.getAttribute('src')) audio.setAttribute('src', './bgBgm.mp3');
+                    audio.muted = false;
+                    audio.volume = 0.5;
+                    var p = audio.play();
+                    if (p && typeof p.then === 'function') p.catch(function () { });
                   }
-                }
+                } catch (e) { }
 
-                // Attach click handlers to both the circle and the inner text to ensure clicks register
-                monogramEl.addEventListener('click', onClick, { once: true });
-                monogramLetters.addEventListener('click', onClick, { once: true });
-                monogramEl.addEventListener('keydown', onKeyDown, { once: true });
-              } else {
-                // fallback: continue without explicit monogram tap
+                // restore monogram initials and proceed
+                monogramLetters.textContent = initials;
+                monogramLetters.style.cursor = '';
+                monogramEl.removeAttribute('tabindex');
+                monogramEl.removeAttribute('role');
+                monogramEl.removeEventListener('click', onClick);
+                monogramEl.removeEventListener('keydown', onKeyDown);
+
+                // hide loader and continue to the splash + unlock flow
                 loaderEl.classList.add('hidden');
                 showSplashThenUnlock();
                 if (callback) callback();
+
+                // After the splash animation, keep the view pinned to the hero screen instead of jumping to a later button.
+                setTimeout(function () {
+                  try {
+                    var sc = document.getElementById('scrollArea');
+                    if (sc) {
+                      sc.scrollTop = 0;
+                      if (lenis) {
+                        lenis.scrollTo(0, { duration: 0 });
+                      }
+                      sc.tabIndex = -1;
+                      sc.focus({ preventScroll: true });
+                    }
+                  } catch (err) { }
+                }, 900);
               }
+
+              function onClick() { activateFromGesture(); }
+              function onKeyDown(e) {
+                // Allow Enter, Space, or Tab to activate the invitation from the monogram.
+                if (e.key === 'Enter' || e.key === ' ' || e.key === 'Tab') {
+                  e.preventDefault();
+                  activateFromGesture();
+
+                  // If user pressed Tab, move focus to the next focusable element after activation
+                  if (e.key === 'Tab') {
+                    setTimeout(function () {
+                      try {
+                        var focusables = Array.prototype.slice.call(document.querySelectorAll('a,button,input,textarea,select,[tabindex]:not([tabindex="-1"])'));
+                        focusables = focusables.filter(function (el) { return !!(el.offsetParent || el === document.body) && !el.disabled; });
+                        var idx = focusables.indexOf(monogramEl);
+                        var next = focusables[(idx + 1) >= 0 ? (idx + 1) : 0];
+                        if (next && typeof next.focus === 'function') next.focus();
+                      } catch (err) { }
+                    }, 900);
+                  }
+                }
+              }
+
+              // Attach click handlers to both the circle and the inner text to ensure clicks register
+              monogramEl.addEventListener('click', onClick, { once: true });
+              monogramLetters.addEventListener('click', onClick, { once: true });
+              monogramEl.addEventListener('keydown', onKeyDown, { once: true });
+            } else {
+              // fallback: continue without explicit monogram tap
+              loaderEl.classList.add('hidden');
+              showSplashThenUnlock();
+              if (callback) callback();
             }
+          }
         }
         requestAnimationFrame(tick);
       }
 
-      /* Show the splash card, animate it in, hold, then transition to main */
+      /* Show the splash card, animate it in, hold 2.8s, then play door animation */
       function showSplashThenUnlock() {
         var env = document.getElementById('envelopeScreen');
-        var card = document.getElementById('splashCard');
         if (!env) { unlockSite(); return; }
 
         /* Fade in the splash screen */
@@ -2954,17 +3052,66 @@
           gsap.to('#splashCard .invite-corner', { opacity: 0.55, duration: 0.6, delay: 0.5, stagger: 0.08, ease: 'power2.out' });
         }
 
-        /* After 2.8s, fade the card + screen out and unlock main invitation */
+        /* After hold time, play door animation then unlock */
         setTimeout(function () {
-          if (typeof gsap !== 'undefined' && !REDUCED) {
-            gsap.timeline({ onComplete: unlockSite })
-              .to('#splashCard', { opacity: 0, scale: 1.02, y: -10, duration: 0.7, ease: 'power2.inOut' })
-              .to('#envelopeScreen', { opacity: 0, duration: 0.5, ease: 'power2.in' }, '-=0.35');
-          } else {
-            env.classList.remove('visible');
-            setTimeout(unlockSite, 600);
-          }
+          openDoorAnimation();
         }, REDUCED ? 800 : 2800);
+      }
+
+      /* Double-door split: splash fades → doors appear closed → doors swing open → invitation revealed */
+      function openDoorAnimation() {
+        var doorLeft = document.getElementById('doorLeft');
+        var doorRight = document.getElementById('doorRight');
+        var env = document.getElementById('envelopeScreen');
+        var intro = document.getElementById('intro');
+
+        /* Fallback — no door elements, just unlock directly */
+        if (!doorLeft || !doorRight) {
+          if (env) { env.style.opacity = '0'; env.style.pointerEvents = 'none'; }
+          setTimeout(unlockSite, 400);
+          return;
+        }
+
+        /* Phase 1: Fade the splash card out (250ms) */
+        if (env) {
+          env.style.transition = 'opacity 0.25s ease';
+          env.style.opacity = '0';
+          env.style.pointerEvents = 'none';
+        }
+
+        /* Phase 2: Show doors (snap to visible, closed position) */
+        setTimeout(function () {
+          doorLeft.style.display = 'block';
+          doorRight.style.display = 'block';
+          /* Force reflow so display change is committed before transition */
+          void doorLeft.offsetWidth;
+
+          /* Phase 3: Prepare the invitation behind the doors */
+          unlockSite();
+
+          /* Give the invite one frame to render, then swing doors open */
+          requestAnimationFrame(function () {
+            requestAnimationFrame(function () {
+              doorLeft.style.transition = 'transform 1.05s cubic-bezier(.77,0,.18,1)';
+              doorRight.style.transition = 'transform 1.05s cubic-bezier(.77,0,.18,1)';
+              doorLeft.classList.add('door-open-left');
+              doorRight.classList.add('door-open-right');
+
+              /* Phase 4: Fade out and remove doors after they've fully opened */
+              setTimeout(function () {
+                doorLeft.style.transition += ', opacity 0.35s ease';
+                doorRight.style.transition += ', opacity 0.35s ease';
+                doorLeft.style.opacity = '0';
+                doorRight.style.opacity = '0';
+              }, 900);
+
+              setTimeout(function () {
+                doorLeft.style.display = 'none';
+                doorRight.style.display = 'none';
+              }, 1400);
+            });
+          });
+        }, 280);
       }
 
       /* ============================================================
@@ -3082,10 +3229,7 @@
         var envelopeScreen = document.getElementById('envelopeScreen');
         var scrollArea = document.getElementById('scrollArea');
 
-        /* Fade out the envelope screen smoothly before hiding the whole intro */
-        if (envelopeScreen) envelopeScreen.classList.add('fade-out');
-
-        intro.classList.add('hidden');
+        /* Make the scroll area active and reset position */
         document.body.classList.remove('locked');
         scrollArea.classList.add('active');
         scrollArea.scrollTop = 0;
@@ -3093,10 +3237,14 @@
           lenis.scrollTo(0, { duration: 0 });
         }
 
+        /* Delay hiding #intro so the door panels (which live inside it) can finish animating.
+           Doors take ~1400ms to fully disappear, so we wait 1500ms before hiding intro. */
         setTimeout(function () {
-          intro.style.display = 'none';
-          if (envelopeScreen) envelopeScreen.style.visibility = 'hidden';
-        }, 950);
+          intro.classList.add('hidden');
+          setTimeout(function () {
+            intro.style.display = 'none';
+          }, 950);
+        }, 1500);
 
         initSmoothScroll();
         initScrollReveals();
@@ -3421,7 +3569,7 @@
                 if (audio.muted) audio.muted = false;
                 var promise = audio.play();
                 if (promise && typeof promise.then === 'function') {
-                  promise.catch(function () {});
+                  promise.catch(function () { });
                 }
               } else {
                 audio.pause();
@@ -3537,7 +3685,7 @@
         form.addEventListener('submit', function (e) {
           e.preventDefault();
           var message = form.message.value.trim();
-          
+
           if (!message) {
             showToast('Please enter your wishes');
             return;
@@ -3549,10 +3697,10 @@
 
           // WhatsApp API URL with Indian phone number format (country code +91)
           var whatsappURL = 'https://wa.me/919629031193?text=' + encodeURIComponent(wishMessage);
-          
+
           // Open WhatsApp
           window.open(whatsappURL, '_blank');
-          
+
           showToast('Opening WhatsApp to send your wishes...');
           form.reset();
           $all('.field', form).forEach(function (f) { f.classList.remove('filled'); });
