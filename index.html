@@ -1531,54 +1531,7 @@
       height: 11px;
     }
 
-    /* ================================================================
-   13. SCREEN 7 — LOVE STORY
-   ================================================================ */
-    .story-track {
-      width: 100%;
-      margin-top: 8px;
-      display: flex;
-      flex-direction: column;
-      gap: 26px;
-    }
-
-    .story-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 16px;
-      text-align: left;
-    }
-
-    .story-icon {
-      flex: 0 0 auto;
-      width: 46px;
-      height: 46px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: var(--glass);
-      border: 1px solid var(--glass-border-strong);
-      box-shadow: 0 0 18px rgba(212, 175, 55, .18);
-    }
-
-    .story-icon .icon {
-      width: 20px;
-      height: 20px;
-    }
-
-    .story-copy .ev-title {
-      font-family: var(--font-display);
-      font-size: 19px;
-      color: var(--text);
-    }
-
-    .story-copy .ev-text {
-      font-size: 12.5px;
-      color: var(--text-secondary);
-      margin-top: 3px;
-      line-height: 1.6;
-    }
+    
 
     /* ================================================================
    14. SCREEN 8 — COUNTDOWN
@@ -2628,11 +2581,7 @@
         venueMapsQuery: 'G R .V Mahal',
         // direct maps link (opens if present)
         venueMapsLink: 'https://maps.app.goo.gl/rtZ2gW6ydehGPyCc7',
-        phone: '+91 98765 43210',
-        brideFather: 'Mr. Rajesh Sharma',
-        brideMother: 'Mrs. Sunita Sharma',
-        groomFather: 'Mr. Anil Mehta',
-        groomMother: 'Mrs. Kavita Mehta'
+        phone: '+91 98765 43210'
       };
 
       var REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -2664,10 +2613,6 @@
         setText('venueAddress', WEDDING.venueAddress);
         setText('venueDate', WEDDING.displayDate);
         setText('venueTime', WEDDING.displayTime);
-        setText('brideFatherName', WEDDING.brideFather);
-        setText('brideMotherName', WEDDING.brideMother);
-        setText('groomFatherName', WEDDING.groomFather);
-        setText('groomMotherName', WEDDING.groomMother);
       }
 
       /* ============================================================
@@ -3260,17 +3205,7 @@
           });
         }
 
-        // love story icons — pop in
-        var storyIcons = $all('.story-icon');
-        if (storyIcons.length) {
-          gsap.set(storyIcons, { scale: 0, opacity: 0 });
-          storyIcons.forEach(function (icon, i) {
-            gsap.to(icon, {
-              scale: 1, opacity: 1, duration: 0.6, ease: 'back.out(2.2)', delay: i * 0.08,
-              scrollTrigger: { trigger: icon, scroller: SCROLLER, start: 'top 85%' }
-            });
-          });
-        }
+        
 
         // countdown cards
         var cdCards = $all('.countdown-card');
@@ -3546,44 +3481,7 @@
         toastTimer = setTimeout(function () { toast.classList.remove('show'); }, 3200);
       }
 
-      /* ============================================================
-         19. WISHES FORM — Send wishes via WhatsApp
-      ============================================================= */
-      function initWishesForm() {
-        var form = document.getElementById('wishesForm');
-        if (!form) return;
-
-        // keep floating labels lifted for inputs that already carry a value
-        $all('.field input, .field textarea', form).forEach(function (input) {
-          function refresh() { input.parentElement.classList.toggle('filled', input.value.trim().length > 0); }
-          input.addEventListener('input', refresh);
-          refresh();
-        });
-
-        form.addEventListener('submit', function (e) {
-          e.preventDefault();
-          var message = form.message.value.trim();
-
-          if (!message) {
-            showToast('Please enter your wishes');
-            return;
-          }
-
-          // Format the message for WhatsApp
-          var wishMessage = '*✨ Wishes for Archana & Balan ✨*\n\n';
-          wishMessage += message;
-
-          // WhatsApp API URL with Indian phone number format (country code +91)
-          var whatsappURL = 'https://wa.me/919629031193?text=' + encodeURIComponent(wishMessage);
-
-          // Open WhatsApp
-          window.open(whatsappURL, '_blank');
-
-          showToast('Opening WhatsApp to send your wishes...');
-          form.reset();
-          $all('.field', form).forEach(function (f) { f.classList.remove('filled'); });
-        });
-      }
+      
 
       /* ============================================================
          20. BUTTON WIRING (open maps / calendar / view location)
@@ -3608,7 +3506,6 @@
         Particles.start();
 
         initGallery();
-        initWishesForm();
         initActionButtons();
         initMusicToggle();
         initRipple();
