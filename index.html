@@ -370,126 +370,234 @@
     }
 
     /* ---- Loader ---- */
-    #loader {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 22px;
-      background:
-        linear-gradient(rgba(5, 5, 5, 0.45), rgba(5, 5, 5, 0.45)),
-        url("./bg1.png");
-      background-size: contain;
-      background-position: center;
-      /* background: radial-gradient(circle at 50% 38%, rgba(212, 175, 55, .08), transparent 60%), var(--bg); */
-      transition: opacity .8s var(--ease-luxury);
-    }
+  /* ---- Loader ---- */
+#loader {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  background:
+    linear-gradient(rgba(5, 5, 5, 0.45), rgba(5, 5, 5, 0.45)),
+    url("./bg1.png");
+  background-size: contain;
+  background-position: center;
+  transition: opacity .8s var(--ease-luxury);
+}
 
-    #loader.hidden {
-      opacity: 0;
-      pointer-events: none;
-    }
+#loader.hidden { opacity: 0; pointer-events: none; }
 
-    .monogram {
-      position: relative;
-      width: 108px;
-      height: 108px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 50%;
-      z-index: 120;
-      pointer-events: auto;
-    }
+/* ambient breathing glow over the background photo */
+#loader::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 34%, rgba(212, 175, 55, .16), transparent 60%);
+  animation: bgPulse 5s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes bgPulse { 0%, 100% { opacity: .45; } 50% { opacity: 1; } }
 
-    .monogram::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      border-radius: 50%;
-      border: 1px solid var(--gold-dim);
-    }
+/* top ornament: line — heart — line */
+.loader-ornament-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  opacity: 0;
+  z-index: 2;
+  animation: ornamentIn .6s var(--ease-luxury) forwards;
+  animation-delay: .25s;
+}
+.loader-ornament-top span {
+  height: 1px;
+  width: 0;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  animation: lineGrow .9s var(--ease-luxury) forwards;
+  animation-delay: .35s;
+}
+.loader-ornament-top .icon { width: 12px; height: 12px; opacity: .9; }
+@keyframes ornamentIn { to { opacity: 1; } }
+@keyframes lineGrow { to { width: 34px; } }
 
-    .monogram::after {
-      content: '';
-      position: absolute;
-      inset: -10px;
-      border-radius: 50%;
-      border: 1px solid rgba(212, 175, 55, .12);
-      animation: ringSpin 12s linear infinite;
-      border-top-color: var(--gold);
-    }
+/* monogram stage — rings + orbiting dots + monogram */
+.monogram-stage {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  opacity: 0;
+  animation: monogramEntrance 1s var(--ease-luxury) forwards;
+  animation-delay: .1s;
+}
+@keyframes monogramEntrance {
+  from { opacity: 0; transform: scale(.7); }
+  to   { opacity: 1; transform: scale(1); }
+}
 
-    @keyframes ringSpin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
+.monogram-ring {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+.ring-outer {
+  inset: -22px;
+  border: 1px solid rgba(212, 175, 55, .12);
+  border-top-color: var(--gold);
+  border-right-color: rgba(212, 175, 55, .3);
+  animation: ringSpin 14s linear infinite;
+}
+.ring-mid {
+  inset: -4px;
+  border: 1px dashed rgba(212, 175, 55, .32);
+  animation: ringSpinReverse 9s linear infinite;
+}
+@keyframes ringSpinReverse { to { transform: rotate(-360deg); } }
 
-    .monogram-letters {
-      font-family: var(--font-display);
-      font-size: 30px;
-      letter-spacing: .04em;
-      background: linear-gradient(180deg, var(--gold-soft), var(--gold));
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      position: relative;
-      animation: monoShimmer 3.2s ease-in-out infinite;
-      display: block;
-      text-align: center;
-      line-height: 1.05;
-    }
+.orbit-dot {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--gold-soft);
+  box-shadow: 0 0 10px rgba(212, 175, 55, .85);
+  top: 50%;
+  left: 50%;
+  margin: -2.5px 0 0 -2.5px;
+  animation: orbit 7s linear infinite;
+}
+.orbit-dot.dot-2 { animation-duration: 7s; animation-delay: -3.5s; opacity: .7; }
+@keyframes orbit {
+  from { transform: rotate(0deg) translateX(80px) rotate(0deg); }
+  to   { transform: rotate(360deg) translateX(80px) rotate(-360deg); }
+}
 
-    .monogram.activated {
-      transform: scale(0.98);
-      transition: transform .18s ease;
-    }
+.monogram {
+  position: relative;
+  width: 108px;
+  height: 108px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 40%, rgba(212, 175, 55, .12), transparent 72%);
+  z-index: 3;
+  pointer-events: auto;
+}
 
-    .monogram:focus {
-      outline: none;
-      box-shadow: 0 0 0 6px rgba(212, 175, 55, 0.12), 0 0 0 2px rgba(212, 175, 55, 0.18) inset;
-      border-radius: 50%;
-    }
+.monogram::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1px solid var(--gold-dim);
+}
 
-    @keyframes monoShimmer {
+.monogram-glow {
+  position: absolute;
+  inset: -14px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(212, 175, 55, .28), transparent 70%);
+  filter: blur(6px);
+  animation: glowPulse 2.6s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes glowPulse {
+  0%, 100% { opacity: .45; transform: scale(.9); }
+  50%      { opacity: 1;   transform: scale(1.1); }
+}
 
-      0%,
-      100% {
-        filter: brightness(1);
-      }
+.monogram-letters {
+  font-family: var(--font-display);
+  font-size: 30px;
+  letter-spacing: .04em;
+  background: linear-gradient(100deg, var(--gold) 0%, var(--gold-soft) 25%, var(--gold) 50%, var(--gold-soft) 75%, var(--gold) 100%);
+  background-size: 220% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  position: relative;
+  display: block;
+  text-align: center;
+  line-height: 1.05;
+  animation: shimmerSweep 3.2s linear infinite;
+}
 
-      50% {
-        filter: brightness(1.4);
-      }
-    }
+.monogram.activated { transform: scale(0.98); transition: transform .18s ease; }
 
-    .loader-label {
-      font-size: 10.5px;
-      letter-spacing: .34em;
-      text-transform: uppercase;
-      color: var(--text-secondary);
-    }
+.monogram:focus {
+  outline: none;
+  box-shadow: 0 0 0 6px rgba(212, 175, 55, 0.12), 0 0 0 2px rgba(212, 175, 55, 0.18) inset;
+  border-radius: 50%;
+}
 
-    .loader-track {
-      width: 140px;
-      height: 1px;
-      background: rgba(255, 255, 255, .08);
-      position: relative;
-      overflow: hidden;
-    }
+@keyframes shimmerSweep {
+  0%   { background-position: 0% 50%; }
+  100% { background-position: 220% 50%; }
+}
 
-    .loader-fill {
-      position: absolute;
-      left: 0;
-      top: 0;
-      bottom: 0;
-      width: 0%;
-      background: linear-gradient(90deg, var(--gold), var(--gold-soft));
-      transition: width .25s linear;
-    }
+.loader-label-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  z-index: 2;
+}
+
+.loader-label {
+  font-size: 10.5px;
+  letter-spacing: .34em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  transition: opacity .35s ease;
+}
+
+.loader-percent {
+  font-family: var(--font-display);
+  font-size: 13px;
+  letter-spacing: .1em;
+  color: var(--gold-soft);
+  opacity: .85;
+}
+
+.loader-track {
+  width: 150px;
+  height: 2px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, .08);
+  position: relative;
+  overflow: visible;
+  z-index: 2;
+}
+
+.loader-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 0%;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--gold), var(--gold-soft));
+  box-shadow: 0 0 10px rgba(212, 175, 55, .5);
+  transition: width .25s linear;
+}
+
+.loader-fill::after {
+  content: '';
+  position: absolute;
+  right: -3px;
+  top: 50%;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  transform: translateY(-50%);
+  background: var(--gold-soft);
+  box-shadow: 0 0 12px 3px rgba(212, 175, 55, .85);
+}
 
     /* ---- Envelope ---- */
     #envelopeScreen {
@@ -1070,6 +1178,18 @@
       isolation: isolate;
     }
 
+    /* Center the gallery screen when snapping so content appears centered without manual scroll */
+    #screen-gallery {
+      scroll-snap-align: center;
+    }
+    #screen-gallery .screen-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding-bottom: 20px;
+    }
+
     .screen::before {
       /* faint top-to-bottom vignette per screen for depth */
       content: '';
@@ -1403,6 +1523,16 @@
       background: rgba(212, 175, 55, .15);
     }
 
+    /* small connector used between tightly spaced timeline items */
+    .timeline-separator {
+      margin-left: 38px;
+      width: 1px;
+      height: 26px;
+      background: rgba(212, 175, 55, .12);
+      margin-bottom: 18px;
+      margin-top: -6px;
+    }
+
     .timeline-line-fill {
       position: absolute;
       left: 0;
@@ -1410,7 +1540,7 @@
       width: 100%;
       height: 100%;
       background: linear-gradient(180deg, var(--gold-soft), var(--gold));
-      transform: scaleY(0);
+      transform: scaleY(1);
       transform-origin: top;
     }
 
@@ -2220,6 +2350,9 @@
         <path d="M5 30 L30 20 L55 30 L80 18 L95 28 L95 80 L70 90 L45 80 L20 92 L5 82 Z" />
         <path d="M30 20v60M55 30v50" />
       </symbol>
+      <symbol id="icon-flourish" viewBox="0 0 24 24">
+        <path d="M2 12c2-4 6-4 8 0c2-4 6-4 8 0" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+      </symbol>
     </svg>
 
     <!-- ambient gold-dust particles, sits behind everything inside the frame -->
@@ -2238,7 +2371,7 @@
     <div id="intro">
 
       <!-- SCREEN 1 — Loading -->
-      <div id="loader">
+      <!-- <div id="loader">
         <div class="monogram">
           <span class="monogram-letters">A&nbsp;B</span>
         </div>
@@ -2246,7 +2379,35 @@
         <div class="loader-track">
           <div class="loader-fill" id="loaderFill"></div>
         </div>
-      </div>
+      </div> -->
+<!-- SCREEN 1 — Loading -->
+<div id="loader">
+  <div class="loader-ornament-top" aria-hidden="true">
+    <span></span>
+    <svg class="icon" viewBox="0 0 24 24"><use href="#icon-heart" /></svg>
+    <span></span>
+  </div>
+
+  <div class="monogram-stage" aria-hidden="true">
+    <div class="monogram-ring ring-outer"></div>
+    <div class="monogram-ring ring-mid"></div>
+    <span class="orbit-dot dot-1"></span>
+    <span class="orbit-dot dot-2"></span>
+    <div class="monogram">
+      <span class="monogram-glow"></span>
+      <span class="monogram-letters">A&nbsp;B</span>
+    </div>
+  </div>
+
+  <div class="loader-label-wrap">
+    <div class="loader-label" id="loaderLabel">Preparing your invitation</div>
+    <div class="loader-percent" id="loaderPercent">0%</div>
+  </div>
+
+  <div class="loader-track">
+    <div class="loader-fill" id="loaderFill"></div>
+  </div>
+</div>
 
 
       <!-- SCREEN 2 — Names Splash Card (auto-advances, no button needed) -->
@@ -2261,7 +2422,7 @@
             <svg class="splash-heart icon" viewBox="0 0 24 24" style="width:28px;height:28px;margin-bottom:14px;">
               <use href="#icon-heart" />
             </svg>
-            <div class="eyebrow" style="margin-bottom:16px;">Together with their families</div>
+            <div class="eyebrow" style="margin-bottom:16px;">With The Blessings Of Our Families</div>
             <h1 class="invite-names" id="envelopeNames">Archana &amp; Balan</h1>
             <div class="splash-divider">
               <span></span>
@@ -2270,8 +2431,8 @@
               </svg>
               <span></span>
             </div>
-            <p class="invite-tagline">request the honour of your presence</p>
-            <div class="eyebrow" style="margin-top:20px;opacity:.6;font-size:9px;" id="splashDate">12 . 9 . 2026</div>
+            <p class="invite-tagline">we invite you to celebrate with us</p>
+            <div class="eyebrow" style="margin-top:20px;opacity:.6;font-size:9px;" id="splashDate">13 . 9 . 2026</div>
           </div>
         </div>
       </div>
@@ -2290,7 +2451,7 @@
         <!-- SCREEN 3 — HERO -->
         <section class="screen hero" id="screen-hero">
           <div class="screen-inner" style="padding-bottom:100px;">
-            <div class="eyebrow reveal-up" data-reveal="hero">Together with their families</div>
+            <div class="eyebrow reveal-up" data-reveal="hero">WITH LOVE, WE INVITE YOU</div>
             <div class="hero-names" style="margin-top:14px; display:flex; flex-direction:column; align-items:center;">
               <span class="display-xl name-line" id="brideNameHero">Archana</span>
               <svg class="icon hero-heart" viewBox="0 0 24 24">
@@ -2324,14 +2485,15 @@
         <section class="screen" id="screen-greeting">
           <div class="screen-inner reveal-up">
             <div class="glass-card greeting-card">
-              <svg class="icon" viewBox="0 0 24 24">
-                <use href="#icon-infinity" />
+              <svg class="icon" viewBox="0 0 24 24" style="width:24px;height:24px;">
+                <use href="#icon-heart" />
               </svg>
-              <div class="eyebrow">A Warm Welcome</div>
-              <p class="display-lg">With hearts full<br>of joy</p>
-              <p class="body-text">we welcome you into this beautiful chapter of our lives. Your presence, blessings and
-                love mean the world to us as we begin our forever — and we can't wait to celebrate this day surrounded
-                by the people we hold dearest.</p>
+              <div class="eyebrow">FROM OUR HEARTS</div>
+              <p class="display-lg">A celebration of<br>our love</p>
+              <p class="body-text">As we begin this beautiful new chapter together,
+we warmly invite you to share in our joy.
+Your presence, love and blessings would mean
+the world to us on this special day.</p>
             </div>
           </div>
         </section>
@@ -2339,7 +2501,7 @@
         <!-- SCREEN 5 — WEDDING TIMELINE -->
         <section class="screen" id="screen-timeline">
           <div class="screen-inner">
-            <div class="eyebrow">The Celebration</div>
+            <div class="eyebrow">Our Celebration</div>
             <h2 class="display-lg" style="margin-top:6px;">Wedding Timeline</h2>
           </div>
           <div class="timeline-track">
@@ -2348,38 +2510,45 @@
             </div>
 
             <div class="timeline-day-label eyebrow">Day One</div>
-            <div class="timeline-item reveal-up" data-reveal="timeline"><span class="dot"></span>
+            <!-- <div class="timeline-item reveal-up" data-reveal="timeline"><span class="dot"></span>
               <div>
                 <div class="ev-title">Engagement</div>
                 <div class="ev-meta">September 12 · 11:00 AM</div>
               </div>
-            </div>
-            <div class="timeline-item reveal-up" data-reveal="timeline"><span class="dot"></span>
+            </div> -->
+            <!-- <div class="timeline-item reveal-up" data-reveal="timeline"><span class="dot"></span>
               <div>
                 <div class="ev-title">Haldi</div>
                 <div class="ev-meta">September 12 · 4:00 PM</div>
               </div>
-            </div>
+            </div> -->
             <div class="timeline-item reveal-up" data-reveal="timeline"><span class="dot"></span>
               <div>
                 <div class="ev-title">Reception</div>
                 <div class="ev-meta">September 12 · 7:00 PM</div>
               </div>
             </div>
+             <div class="timeline-item reveal-up" data-reveal="timeline"><span class="dot"></span>
+              <div>
+                <div class="ev-title">Dinner</div>
+                <div class="ev-meta">September 12 · 7:30 PM</div>
+              </div>
+            </div>
 
             <div class="timeline-day-label eyebrow">Day Two</div>
             <div class="timeline-item reveal-up" data-reveal="timeline"><span class="dot"></span>
               <div>
-                <div class="ev-title">Marriage</div>
-                <div class="ev-meta">September 13 · 7:30 PM — 8:30 PM</div>
+                <div class="ev-title">Wedding Ceremony</div>
+                <div class="ev-meta">September 13 · 7:30 AM — 8:30 AM</div>
               </div>
             </div>
             <div class="timeline-item reveal-up" data-reveal="timeline"><span class="dot"></span>
               <div>
                 <div class="ev-title">Blessings</div>
-                <div class="ev-meta">September 13 · 10:00 PM</div>
+                <div class="ev-meta">September 13 · 10:00 AM</div>
               </div>
             </div>
+            <!-- <div class="timeline-separator" aria-hidden="true"></div> -->
             <div class="timeline-item reveal-up" data-reveal="timeline"><span class="dot"></span>
               <div>
                 <div class="ev-title">Lunch</div>
@@ -2401,19 +2570,19 @@
           </div>
           <div class="gallery-grid">
             <div class="gallery-item" data-index="0">
-              <img data-src="./front.png" alt="Couple photo 1" loading="lazy">
+              <img data-src="./1.jpeg" alt="Couple photo 1" loading="lazy">
 
             </div>
             <div class="gallery-item" data-index="1">
-              <img data-src="./timelast.png" alt="Couple photo 2" loading="lazy">
+              <img data-src="./2.jpeg" alt="Couple photo 2" loading="lazy">
 
             </div>
             <div class="gallery-item" data-index="2">
-              <img data-src="./date.png" alt="Couple photo 3" loading="lazy">
+              <img data-src="./3.jpeg" alt="Couple photo 3" loading="lazy">
 
             </div>
             <div class="gallery-item" data-index="3">
-              <img data-src="./timeline.png" alt="Couple photo 4" loading="lazy">
+              <img data-src="./4.jpeg" alt="Couple photo 4" loading="lazy">
             </div>
           </div>
         </section>
@@ -2423,8 +2592,8 @@
         <!-- SCREEN 8 — COUNTDOWN -->
         <section class="screen" id="screen-countdown">
           <div class="screen-inner">
-            <div class="eyebrow">Counting Every Moment</div>
-            <h2 class="display-lg" style="margin-top:6px;">Until We Say<br>"I Do"</h2>
+            <div class="eyebrow">Counting The Moments</div>
+            <h2 class="display-lg" style="margin-top:6px;">Until Our Big Day<br></h2>
             <div class="countdown-grid">
               <div class="glass-card countdown-card reveal-up" data-reveal="countdown"><span class="num"
                   id="cdDays">00</span><span class="lbl">Days</span></div>
@@ -2447,11 +2616,11 @@
         <!-- SCREEN 10 — MAP -->
         <section class="screen" id="screen-map">
           <div class="screen-inner reveal-up">
-            <div class="eyebrow">Find Your Way</div>
+            <div class="eyebrow">We'll See You Here</div>
             <h2 class="display-lg" style="margin:6px 0 18px;">Getting There</h2>
             <div class="display-md" id="venueNameMap" style="margin-top:6px;">G R .V Mahal</div>
             <div class="map-placeholder">
-              <iframe src="https://www.google.com/maps?q=12.9182741,80.178667&z=17&output=embed" allowfullscreen=""
+              <iframe src="https://www.google.com/maps?q=12.9154119,80.1920223&z=17&output=embed" allowfullscreen=""
                 loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
               <!-- <div class="map-pin-drop">
                 <svg class="icon" viewBox="0 0 24 24">
@@ -2460,13 +2629,12 @@
                 <span class="pin-ring"></span>
               </div> -->
             </div>
-            <p class="body-text" style="margin-top:14px;">Tap below to open turn-by-turn directions straight from your
-              phone's Google Maps app.</p>
+            <p class="body-text" style="margin-top:14px;">Tap below to find your way to our celebration.</p>
             <button class="btn btn-gold" id="openMapsBtn" style="margin-top:14px;width:100%;">
               <svg class="icon" viewBox="0 0 24 24">
                 <use href="#icon-location" />
               </svg>
-              Open Google Maps
+              Open In Google Maps
             </button>
           </div>
         </section>
@@ -2477,10 +2645,10 @@
             <div class="calendar-icon-wrap"><svg class="icon" viewBox="0 0 24 24">
                 <use href="#icon-calendar" />
               </svg></div>
-            <div class="eyebrow">Don't Miss It</div>
-            <h2 class="display-lg" style="margin:6px 0 10px;">Save The Date</h2>
-            <p class="body-text">Add our wedding straight to your calendar so the day arrives with a gentle reminder,
-              not a surprise.</p>
+            <div class="eyebrow">Mark Your Calendar</div>
+            <h2 class="display-lg" style="margin:6px 0 10px;">Save Our Date</h2>
+            <p class="body-text">Add our special day to your calendar,
+and let’s celebrate together.</p>
             <button class="btn btn-gold" id="addToCalendarBtn" style="margin-top:18px;width:100%;">
               <svg class="icon" viewBox="0 0 24 24">
                 <use href="#icon-calendar" />
@@ -2498,11 +2666,11 @@
         <section class="screen thankyou-screen" id="screen-thankyou">
           <div class="thankyou-vignette" id="thankyouVignette"></div>
           <div class="screen-inner">
-            <svg class="icon" viewBox="0 0 24 24" style="width:30px;height:30px;margin-bottom:10px;">
+            <!-- <svg class="icon" viewBox="0 0 24 24" style="width:30px;height:30px;margin-bottom:10px;">
               <use href="#icon-infinity" />
-            </svg>
-            <h2 class="display-xl reveal-up" data-reveal="thanks">Thank You</h2>
-            <p class="thankyou-quote reveal-up" data-reveal="thanks">"We eagerly await your gracious presence."</p>
+            </svg> -->
+            <h2 class="display-xl reveal-up" data-reveal="thanks">Thank You❤️</h2>
+            <p class="thankyou-quote reveal-up" data-reveal="thanks">“Your presence means the world to us.”</p>
             <div class="thankyou-names reveal-up" data-reveal="thanks">
               Archana <svg class="icon" viewBox="0 0 24 24"
                 style="width:16px;height:16px;display:inline;vertical-align:-2px;">
@@ -2571,16 +2739,16 @@
       var WEDDING = {
         brideName: 'Archana',
         groomName: 'Balan',
-        // marriage start used for countdown (Sep 13, 2026 at 19:30)
-        weddingDateTime: '2026-09-13T19:30:00',
+        // marriage start used for countdown (Sep 13, 2026 at 07:30)
+        weddingDateTime: '2026-09-13T07:30:00',
         displayDate: '13th September 2026',
-        displayTime: '7:30 PM — 8:30 PM',
+        displayTime: '7:30 AM — 8:30 AM',
         // updated venue
         venueName: 'G R .V Mahal',
         venueAddress: 'G R .V Mahal',
         venueMapsQuery: 'G R .V Mahal',
         // direct maps link (opens if present)
-        venueMapsLink: 'https://maps.app.goo.gl/rtZ2gW6ydehGPyCc7',
+        venueMapsLink: 'https://www.google.com/maps/place/G+R+.V+Mahal/@12.9154119,80.1920223,17z/data=!3m1!4b1!4m6!3m5!1s0x3a525c1eb9371f59:0xe1554da504aedfe6!8m2!3d12.9154119!4d80.1920223!16s%2Fg%2F124t3k4hq!18m1!1e1?entry=ttu&g_ep=EgoyMDI2MDgyNS4wIKXMDSoASAFQAw%3D%3D',
         phone: '+91 98765 43210'
       };
 
@@ -2755,17 +2923,21 @@
       function runLoader(callback) {
         var fill = document.getElementById('loaderFill');
         var label = document.getElementById('loaderLabel');
-        var messages = ['Preparing your invitation', 'Sealing it with gold', 'Almost ready'];
+        var percentEl = document.getElementById('loaderPercent');
         var progress = 0;
         var duration = REDUCED ? 200 : 2200;
         var start = performance.now();
+
+        // remove rotating messages — hide the label and percent if present
+        if (label) label.style.display = 'none';
+        if (percentEl) percentEl.style.display = 'none';
 
         function tick(now) {
           var elapsed = now - start;
           progress = Math.min(elapsed / duration, 1);
           fill.style.width = (progress * 100) + '%';
-          var msgIndex = Math.min(messages.length - 1, Math.floor(progress * messages.length));
-          label.textContent = messages[msgIndex];
+          if (percentEl) percentEl.textContent = Math.round(progress * 100) + '%';
+
           if (progress < 1) {
             requestAnimationFrame(tick);
           } else {
@@ -3186,13 +3358,10 @@
           });
         });
 
-        // timeline golden line fill
+        // timeline golden line fill — show fully by default (no scroll animation)
         var track = $('.timeline-track');
         if (track) {
-          gsap.to('.timeline-line-fill', {
-            scaleY: 1, ease: 'none',
-            scrollTrigger: { trigger: track, scroller: SCROLLER, start: 'top 75%', end: 'bottom 70%', scrub: true }
-          });
+          try { if (typeof gsap !== 'undefined') gsap.set('.timeline-line-fill', { scaleY: 1 }); } catch (e) { /* ignore */ }
         }
 
         // gallery photos — staggered scale + fade as the grid enters view
