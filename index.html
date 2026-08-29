@@ -27,6 +27,34 @@
     href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Great+Vibes&family=Poppins:wght@300;400;500;600;700&display=swap"
     rel="stylesheet">
 
+  <!-- ================================================================
+    CRITICAL: Dynamic viewport height polyfill
+    Sets --dvh to the ACTUAL visible viewport height (window.innerHeight)
+    so that mobile browser chrome (address bar, bottom nav) is accounted for.
+    Runs synchronously before the page renders so no layout shift occurs.
+  ================================================================= -->
+  <script>
+    (function () {
+      function setDvh() {
+        // window.innerHeight reflects the actual visible area (excludes browser chrome)
+        var vh = window.innerHeight;
+        document.documentElement.style.setProperty('--dvh', vh + 'px');
+      }
+      // Set immediately so CSS gets the right value before first paint
+      setDvh();
+      // Update on resize (landscape/portrait switch, browser chrome show/hide)
+      window.addEventListener('resize', setDvh, { passive: true });
+      window.addEventListener('orientationchange', function () {
+        // Small delay to let the browser finish resizing after orientation change
+        setTimeout(setDvh, 120);
+      }, { passive: true });
+      // VisualViewport API — fires when keyboard or browser chrome changes the viewport
+      if (window.visualViewport) {
+        window.visualViewport.addEventListener('resize', setDvh, { passive: true });
+      }
+    })();
+  </script>
+
   <style>
     /* ================================================================
    1. ROOT VARIABLES + RESET
@@ -48,7 +76,9 @@
       --font-script: 'Great Vibes', cursive;
       --font-body: 'Poppins', sans-serif;
       --ease-luxury: cubic-bezier(.22, 1, .36, 1);
-      --vh: 100vh;
+      /* --dvh is set by JS to window.innerHeight (actual visible height on mobile).
+         Falls back to 100dvh, then 100vh for maximum browser compatibility. */
+      --dvh: 100dvh;
     }
 
     * {
@@ -64,8 +94,13 @@
       font-family: var(--font-body);
       -webkit-font-smoothing: antialiased;
       overflow: hidden;
-      height: 100%;
+      /* Use dvh for the actual visible viewport; 100% as final fallback */
+      height: 100vh;
+      height: 100dvh;
       width: 100%;
+      /* Remove any default margin/padding that could cause initial offset */
+      margin: 0;
+      padding: 0;
     }
 
     body.locked {
@@ -113,13 +148,24 @@
       width: 100%;
       max-width: 430px;
       min-width: 360px;
-      height: 100vh;
+      /* Use dynamic viewport height so the frame matches the actual visible area
+         on mobile browsers (accounts for address bar / bottom nav chrome).
+         Fallback chain: CSS var (set by JS polyfill) → 100dvh → 100svh → 100vh */
+      height: var(--dvh, 100dvh);
+      height: 100svh; /* stable — ignores transient browser chrome changes */
       margin: 0 auto;
       background: var(--bg);
       overflow: hidden;
       transform: translateZ(0);
       /* creates a containing block so our fixed UI stays scoped to the frame */
       isolation: isolate;
+    }
+
+    /* For browsers that fully support dvh/svh, override the JS var */
+    @supports (height: 100dvh) {
+      #frame {
+        height: 100dvh;
+      }
     }
 
     @media (min-width:701px) {
@@ -131,10 +177,13 @@
           radial-gradient(circle at 50% 0%, rgba(212, 175, 55, .06), transparent 60%),
           #020202;
         height: 100vh;
+        height: 100dvh;
       }
 
       #frame {
+        /* On desktop, use a fixed max-height — dvh quirks don't apply here */
         height: min(900px, 96vh);
+        height: min(900px, 96dvh);
         border-radius: 38px;
         border: 1px solid rgba(212, 175, 55, .25);
         box-shadow:
@@ -1149,6 +1198,8 @@
       inset: 0;
       overflow-y: hidden;
       scroll-snap-type: y mandatory;
+      /* Ensure the snap container starts at the very top with no offset */
+      scroll-padding-top: 0;
       opacity: 0;
       z-index: 1;
       transition: opacity .8s var(--ease-luxury);
@@ -1161,11 +1212,18 @@
 
     #scrollContent {
       position: relative;
+      /* Prevent any implicit top margin/padding that could offset the first snap point */
+      margin: 0;
+      padding: 0;
     }
 
     .screen {
       position: relative;
+      /* Use dynamic viewport height so each screen fills exactly the visible area.
+         Fallback chain: CSS var (JS polyfill) → 100dvh → 100svh → 100vh */
       min-height: 100vh;
+      min-height: 100svh;
+      min-height: var(--dvh, 100dvh);
       width: 100%;
       scroll-snap-align: start;
       scroll-snap-stop: always;
@@ -1176,6 +1234,13 @@
       padding: 90px 24px 70px;
       overflow: hidden;
       isolation: isolate;
+    }
+
+    /* For browsers with full dvh support, use 100dvh directly */
+    @supports (min-height: 100dvh) {
+      .screen {
+        min-height: 100dvh;
+      }
     }
 
     /* Center the gallery screen when snapping so content appears centered without manual scroll */
@@ -2253,6 +2318,13 @@
       }
     }
 
+    /* Ensure the first screen in the scroll area has no top margin that could
+       push it below the snap origin and cause the initial layout shift.
+       Note: padding is preserved — it does not affect snap alignment. */
+    #scrollContent > .screen:first-child {
+      margin-top: 0 !important;
+    }
+
     /*==================== Cracker CSS */
     #firecracker-container {
       position: fixed;
@@ -3235,9 +3307,16 @@ and let’s celebrate together.</p>
         var envelopeScreen = document.getElementById('envelopeScreen');
         var scrollArea = document.getElementById('scrollArea');
 
+        /* Re-apply --dvh now that the scroll area is becoming visible.
+           The browser chrome may have changed since the initial page load
+           (e.g. if the user scrolled during the loader). */
+        var currentVh = window.innerHeight;
+        document.documentElement.style.setProperty('--dvh', currentVh + 'px');
+
         /* Make the scroll area active and reset position */
         document.body.classList.remove('locked');
         scrollArea.classList.add('active');
+        /* Force scroll to top so the first snap section starts at exactly 0 */
         scrollArea.scrollTop = 0;
         if (lenis) {
           lenis.scrollTo(0, { duration: 0 });
