@@ -72,6 +72,11 @@
       --glass-border: rgba(212, 175, 55, .22);
       --glass-border-strong: rgba(212, 175, 55, .45);
       --shadow-gold: 0 10px 40px rgba(212, 175, 55, .12);
+      --maroon: #6B1F3A;
+      --maroon-deep: #3D0F1F;
+      --maroon-soft: #9A3A55;
+      --maroon-rose: #C9748A;
+      --maroon-glow: rgba(107, 31, 58, .35);
       --font-display: 'Cormorant Garamond', serif;
       --font-script: 'Great Vibes', cursive;
       --font-body: 'Poppins', sans-serif;
@@ -419,40 +424,43 @@
       pointer-events: none;
     }
 
-    /* ---- Loader ---- */
-    /* ---- Loader ---- */
+    /* ---- Cover / Loader Screen ---- */
     #loader {
       position: absolute;
       inset: 0;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      gap: 22px;
+      justify-content: space-between;
+      padding: clamp(28px, 8vw, 44px) 24px clamp(24px, 6vw, 36px);
+      overflow: hidden;
       background:
-        linear-gradient(rgba(5, 5, 5, 0.45), rgba(5, 5, 5, 0.45)),
+        radial-gradient(ellipse 80% 50% at 50% 18%, rgba(212, 175, 55, .1), transparent 70%),
+        radial-gradient(circle at 50% 85%, rgba(107, 31, 58, .14), transparent 55%),
+        radial-gradient(circle at 50% 40%, rgba(107, 31, 58, .08), transparent 50%),
+        linear-gradient(rgba(5, 5, 5, 0.78), rgba(5, 5, 5, 0.78)),
         url("./bg1.png");
-      background-size: contain;
+      background-size: cover;
       background-position: center;
-      transition: opacity .8s var(--ease-luxury);
+      transition: opacity .85s var(--ease-luxury), transform .85s var(--ease-luxury);
     }
 
     #loader.hidden {
       opacity: 0;
       pointer-events: none;
+      transform: scale(1.03);
     }
 
-    /* ambient breathing glow over the background photo */
     #loader::before {
       content: '';
       position: absolute;
       inset: 0;
-      background: radial-gradient(circle at 50% 34%, rgba(212, 175, 55, .16), transparent 60%);
-      animation: bgPulse 5s ease-in-out infinite;
+      background: radial-gradient(circle at 50% 38%, rgba(212, 175, 55, .14), transparent 58%);
+      animation: coverGlow 6s ease-in-out infinite;
       pointer-events: none;
     }
 
-    @keyframes bgPulse {
+    @keyframes coverGlow {
 
       0%,
       100% {
@@ -464,197 +472,242 @@
       }
     }
 
-    /* top ornament: line — heart — line */
-    .loader-ornament-top {
-      display: flex;
-      align-items: center;
-      gap: 10px;
+    .cover-petals {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .cover-petal,
+    .cover-confetti {
+      position: absolute;
+      top: -12%;
       opacity: 0;
+      animation: petalFall linear infinite;
+    }
+
+    .cover-petal {
+      width: 11px;
+      height: 14px;
+      border-radius: 50% 50% 50% 0;
+      background: linear-gradient(145deg, var(--maroon-rose), var(--maroon));
+      transform-origin: center;
+      box-shadow: 0 0 8px var(--maroon-glow);
+    }
+
+    .cover-confetti {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--gold-soft);
+      box-shadow: 0 0 6px rgba(212, 175, 55, .45);
+    }
+
+    .cover-petal:nth-child(1) {
+      left: 8%;
+      animation-duration: 11s;
+      animation-delay: 0s;
+    }
+
+    .cover-petal:nth-child(2) {
+      left: 18%;
+      animation-duration: 13s;
+      animation-delay: -2s;
+      transform: scale(.85) rotate(25deg);
+    }
+
+    .cover-petal:nth-child(3) {
+      left: 28%;
+      animation-duration: 10s;
+      animation-delay: -4s;
+    }
+
+    .cover-petal:nth-child(4) {
+      left: 42%;
+      animation-duration: 14s;
+      animation-delay: -1s;
+      transform: scale(1.1) rotate(-15deg);
+    }
+
+    .cover-petal:nth-child(5) {
+      left: 55%;
+      animation-duration: 12s;
+      animation-delay: -6s;
+    }
+
+    .cover-petal:nth-child(6) {
+      left: 68%;
+      animation-duration: 11.5s;
+      animation-delay: -3s;
+      transform: scale(.9) rotate(40deg);
+    }
+
+    .cover-petal:nth-child(7) {
+      left: 78%;
+      animation-duration: 13.5s;
+      animation-delay: -5s;
+    }
+
+    .cover-petal:nth-child(8) {
+      left: 90%;
+      animation-duration: 10.5s;
+      animation-delay: -7s;
+      transform: scale(1.05) rotate(-30deg);
+    }
+
+    .cover-confetti:nth-child(9) {
+      left: 12%;
+      animation-duration: 9s;
+      animation-delay: -1.5s;
+    }
+
+    .cover-confetti:nth-child(10) {
+      left: 35%;
+      animation-duration: 8s;
+      animation-delay: -3.5s;
+    }
+
+    .cover-confetti:nth-child(11) {
+      left: 50%;
+      animation-duration: 10s;
+      animation-delay: -2s;
+    }
+
+    .cover-confetti:nth-child(12) {
+      left: 72%;
+      animation-duration: 7.5s;
+      animation-delay: -4.5s;
+    }
+
+    .cover-confetti:nth-child(13) {
+      left: 88%;
+      animation-duration: 9.5s;
+      animation-delay: -6.5s;
+    }
+
+    @keyframes petalFall {
+      0% {
+        opacity: 0;
+        transform: translateY(0) translateX(0) rotate(0deg);
+      }
+
+      8% {
+        opacity: .85;
+      }
+
+      100% {
+        opacity: 0;
+        transform: translateY(115vh) translateX(28px) rotate(420deg);
+      }
+    }
+
+    .cover-content {
+      position: relative;
       z-index: 2;
-      animation: ornamentIn .6s var(--ease-luxury) forwards;
-      animation-delay: .25s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      width: 100%;
+      max-width: 340px;
+      flex: 1;
+      justify-content: center;
+      padding-top: 8px;
     }
 
-    .loader-ornament-top span {
-      height: 1px;
-      width: 0;
-      background: linear-gradient(90deg, transparent, var(--gold), transparent);
-      animation: lineGrow .9s var(--ease-luxury) forwards;
-      animation-delay: .35s;
+    .cover-reveal {
+      opacity: 0;
+      transform: translateY(18px);
+      animation: coverReveal .9s var(--ease-luxury) forwards;
+      animation-delay: calc(.15s + var(--d, 0) * .12s);
     }
 
-    .loader-ornament-top .icon {
-      width: 12px;
-      height: 12px;
-      opacity: .9;
-    }
-
-    @keyframes ornamentIn {
+    @keyframes coverReveal {
       to {
         opacity: 1;
+        transform: translateY(0);
       }
     }
 
-    @keyframes lineGrow {
-      to {
-        width: 34px;
-      }
-    }
-
-    /* monogram stage — rings + orbiting dots + monogram */
-    .monogram-stage {
+    .cover-monogram {
       position: relative;
-      width: 150px;
-      height: 150px;
+      width: 88px;
+      height: 88px;
       display: flex;
       align-items: center;
       justify-content: center;
-      z-index: 2;
+      margin-bottom: 22px;
       opacity: 0;
-      animation: monogramEntrance 1s var(--ease-luxury) forwards;
-      animation-delay: .1s;
+      transform: scale(.72);
+      animation: coverMonogramIn 1.1s var(--ease-luxury) forwards;
     }
 
-    @keyframes monogramEntrance {
-      from {
-        opacity: 0;
-        transform: scale(.7);
-      }
-
+    @keyframes coverMonogramIn {
       to {
         opacity: 1;
         transform: scale(1);
       }
     }
 
-    .monogram-ring {
-      position: absolute;
-      border-radius: 50%;
-      pointer-events: none;
-    }
-
-    .ring-outer {
-      inset: -22px;
-      border: 1px solid rgba(212, 175, 55, .12);
-      border-top-color: var(--gold);
-      border-right-color: rgba(212, 175, 55, .3);
-      animation: ringSpin 14s linear infinite;
-    }
-
-    .ring-mid {
-      inset: -4px;
-      border: 1px dashed rgba(212, 175, 55, .32);
-      animation: ringSpinReverse 9s linear infinite;
-    }
-
-    @keyframes ringSpinReverse {
-      to {
-        transform: rotate(-360deg);
-      }
-    }
-
-    .orbit-dot {
-      position: absolute;
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-      background: var(--gold-soft);
-      box-shadow: 0 0 10px rgba(212, 175, 55, .85);
-      top: 50%;
-      left: 50%;
-      margin: -2.5px 0 0 -2.5px;
-      animation: orbit 7s linear infinite;
-    }
-
-    .orbit-dot.dot-2 {
-      animation-duration: 7s;
-      animation-delay: -3.5s;
-      opacity: .7;
-    }
-
-    @keyframes orbit {
-      from {
-        transform: rotate(0deg) translateX(80px) rotate(0deg);
-      }
-
-      to {
-        transform: rotate(360deg) translateX(80px) rotate(-360deg);
-      }
-    }
-
-    .monogram {
-      position: relative;
-      width: 108px;
-      height: 108px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 50%;
-      background: radial-gradient(circle at 50% 40%, rgba(212, 175, 55, .12), transparent 72%);
-      z-index: 3;
-      pointer-events: auto;
-    }
-
-    .monogram::before {
-      content: '';
+    .cover-monogram-ring {
       position: absolute;
       inset: 0;
       border-radius: 50%;
-      border: 1px solid var(--gold-dim);
+      border: 1.5px solid var(--gold-dim);
+      box-shadow:
+        0 0 0 6px rgba(212, 175, 55, .08),
+        inset 0 0 18px rgba(212, 175, 55, .1);
+      animation: coverRingPulse 3s ease-in-out infinite;
     }
 
-    .monogram-glow {
+    .cover-monogram-ring::after {
+      content: '';
       position: absolute;
-      inset: -14px;
+      inset: -10px;
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(212, 175, 55, .28), transparent 70%);
-      filter: blur(6px);
-      animation: glowPulse 2.6s ease-in-out infinite;
-      pointer-events: none;
+      border: 1px dashed rgba(212, 175, 55, .22);
+      animation: ringSpin 18s linear infinite;
     }
 
-    @keyframes glowPulse {
+    @keyframes coverRingPulse {
 
       0%,
       100% {
-        opacity: .45;
-        transform: scale(.9);
+        box-shadow:
+          0 0 0 6px rgba(212, 175, 55, .08),
+          inset 0 0 18px rgba(212, 175, 55, .1);
       }
 
       50% {
-        opacity: 1;
-        transform: scale(1.1);
+        box-shadow:
+          0 0 0 10px rgba(212, 175, 55, .14),
+          inset 0 0 24px rgba(212, 175, 55, .18);
       }
     }
 
-    .monogram-letters {
-      font-family: var(--font-display);
-      font-size: 30px;
-      letter-spacing: .04em;
-      background: linear-gradient(100deg, var(--gold) 0%, var(--gold-soft) 25%, var(--gold) 50%, var(--gold-soft) 75%, var(--gold) 100%);
+    @keyframes ringSpin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .cover-monogram-letters {
+      font-family: var(--font-script);
+      font-size: 34px;
+      line-height: 1;
+      background: linear-gradient(100deg, var(--maroon-rose) 0%, var(--gold-soft) 40%, var(--maroon-rose) 70%, var(--gold) 100%);
       background-size: 220% auto;
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
       position: relative;
-      display: block;
-      text-align: center;
-      line-height: 1.05;
-      animation: shimmerSweep 3.2s linear infinite;
+      z-index: 1;
+      animation: coverShimmer 3.2s linear infinite;
     }
 
-    .monogram.activated {
-      transform: scale(0.98);
-      transition: transform .18s ease;
-    }
-
-    .monogram:focus {
-      outline: none;
-      box-shadow: 0 0 0 6px rgba(212, 175, 55, 0.12), 0 0 0 2px rgba(212, 175, 55, 0.18) inset;
-      border-radius: 50%;
-    }
-
-    @keyframes shimmerSweep {
+    @keyframes coverShimmer {
       0% {
         background-position: 0% 50%;
       }
@@ -664,63 +717,290 @@
       }
     }
 
-    .loader-label-wrap {
+    .cover-eyebrow {
+      font-family: var(--font-body);
+      font-size: 9.5px;
+      letter-spacing: .38em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 500;
+      margin-bottom: 16px;
+    }
+
+    .cover-divider {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: min(220px, 72vw);
+      margin-bottom: 18px;
+    }
+
+    .cover-divider span {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      transform-origin: center;
+      animation: coverLineGrow .8s var(--ease-luxury) forwards;
+      animation-delay: .35s;
+      transform: scaleX(0);
+    }
+
+    @keyframes coverLineGrow {
+      to {
+        transform: scaleX(1);
+      }
+    }
+
+    .cover-divider svg {
+      width: 9px;
+      height: 9px;
+      fill: var(--gold);
+      flex-shrink: 0;
+      animation: coverDiamondSpin 4s ease-in-out infinite;
+    }
+
+    @keyframes coverDiamondSpin {
+
+      0%,
+      100% {
+        transform: rotate(0deg) scale(1);
+      }
+
+      50% {
+        transform: rotate(180deg) scale(1.15);
+      }
+    }
+
+    .cover-names {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 6px;
-      z-index: 2;
+      gap: 2px;
+      margin-bottom: 18px;
     }
 
-    .loader-label {
-      font-size: 10.5px;
-      letter-spacing: .34em;
+    .cover-name {
+      font-family: var(--font-script);
+      font-size: clamp(44px, 12vw, 56px);
+      line-height: 1.05;
+      background: linear-gradient(180deg, var(--maroon-rose) 0%, var(--maroon-soft) 45%, var(--gold) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      filter: drop-shadow(0 0 18px var(--maroon-glow));
+    }
+
+    .cover-weds {
+      font-family: var(--font-body);
+      font-size: 10px;
+      letter-spacing: .42em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 500;
+      margin: 2px 0 4px;
+    }
+
+    .cover-message {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: clamp(15px, 4.2vw, 17px);
+      line-height: 1.65;
+      color: var(--text-secondary);
+      max-width: 30ch;
+      margin-bottom: 20px;
+      font-weight: 500;
+    }
+
+    .cover-details {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .cover-date {
+      font-family: var(--font-display);
+      font-size: clamp(14px, 3.8vw, 16px);
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--gold-soft);
+      font-weight: 600;
+    }
+
+    .cover-venue {
+      font-family: var(--font-body);
+      font-size: 9.5px;
+      letter-spacing: .28em;
       text-transform: uppercase;
       color: var(--text-secondary);
-      transition: opacity .35s ease;
+      font-weight: 500;
+      opacity: .75;
     }
 
-    .loader-percent {
-      font-family: var(--font-display);
-      font-size: 13px;
-      letter-spacing: .1em;
-      color: var(--gold-soft);
-      opacity: .85;
+    .cover-footer {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      max-width: 320px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
     }
 
-    .loader-track {
-      width: 150px;
+    .cover-progress {
+      width: 100%;
       height: 2px;
       border-radius: 2px;
       background: rgba(255, 255, 255, .08);
-      position: relative;
-      overflow: visible;
-      z-index: 2;
+      overflow: hidden;
+      transition: opacity .45s ease, transform .45s ease;
+    }
+
+    .cover-progress.done {
+      opacity: 0;
+      transform: scaleX(.92);
+      pointer-events: none;
     }
 
     .loader-fill {
-      position: absolute;
-      left: 0;
-      top: 0;
-      bottom: 0;
+      height: 100%;
       width: 0%;
       border-radius: 2px;
       background: linear-gradient(90deg, var(--gold), var(--gold-soft));
-      box-shadow: 0 0 10px rgba(212, 175, 55, .5);
+      box-shadow: 0 0 10px rgba(212, 175, 55, .45);
       transition: width .25s linear;
     }
 
-    .loader-fill::after {
+    .cover-open-btn {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      padding: 16px 28px;
+      border-radius: 999px;
+      border: 1px solid var(--glass-border-strong);
+      cursor: pointer;
+      font-family: var(--font-body);
+      font-size: 11px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: var(--gold-soft);
+      background: linear-gradient(135deg, var(--maroon) 0%, var(--maroon-deep) 55%, #1a0508 100%);
+      box-shadow:
+        0 12px 32px rgba(61, 15, 31, .45),
+        var(--shadow-gold),
+        inset 0 1px 0 rgba(255, 255, 255, .1);
+      overflow: hidden;
+      isolation: isolate;
+      opacity: .72;
+      transform: translateY(6px);
+      transition:
+        opacity .5s var(--ease-luxury),
+        transform .5s var(--ease-luxury),
+        box-shadow .35s ease;
+    }
+
+    .cover-open-btn:disabled {
+      cursor: wait;
+    }
+
+    .cover-open-btn.ready {
+      opacity: 1;
+      transform: translateY(0);
+      animation: coverBtnPulse 2.8s ease-in-out infinite;
+    }
+
+    .cover-open-btn.ready::before {
       content: '';
       position: absolute;
-      right: -3px;
-      top: 50%;
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      transform: translateY(-50%);
-      background: var(--gold-soft);
-      box-shadow: 0 0 12px 3px rgba(212, 175, 55, .85);
+      inset: 0;
+      background: linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, .18) 50%, transparent 65%);
+      transform: translateX(-120%);
+      animation: coverBtnShimmer 3s ease-in-out infinite;
+    }
+
+    .cover-open-btn.ready:active {
+      transform: scale(.97);
+      animation: none;
+    }
+
+    .cover-open-btn:focus-visible {
+      outline: 2px solid var(--gold);
+      outline-offset: 3px;
+    }
+
+    .cover-open-btn .icon {
+      width: 17px;
+      height: 17px;
+      stroke: var(--gold-soft);
+      fill: none;
+      position: relative;
+      z-index: 1;
+    }
+
+    .cover-open-btn span {
+      position: relative;
+      z-index: 1;
+    }
+
+    @keyframes coverBtnPulse {
+
+      0%,
+      100% {
+        box-shadow:
+          0 12px 32px rgba(61, 15, 31, .45),
+          var(--shadow-gold),
+          inset 0 1px 0 rgba(255, 255, 255, .1);
+      }
+
+      50% {
+        box-shadow:
+          0 16px 40px rgba(61, 15, 31, .55),
+          0 0 0 4px rgba(212, 175, 55, .14),
+          var(--shadow-gold),
+          inset 0 1px 0 rgba(255, 255, 255, .1);
+      }
+    }
+
+    @keyframes coverBtnShimmer {
+      0% {
+        transform: translateX(-120%);
+      }
+
+      45%,
+      100% {
+        transform: translateX(120%);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+      .cover-petal,
+      .cover-confetti,
+      .cover-monogram-ring,
+      .cover-monogram-ring::after,
+      .cover-divider svg,
+      .cover-monogram-letters,
+      .cover-open-btn.ready,
+      .cover-open-btn.ready::before,
+      #loader::before {
+        animation: none !important;
+      }
+
+      .cover-reveal,
+      .cover-monogram {
+        opacity: 1;
+        transform: none;
+        animation: none;
+      }
+
+      .cover-divider span {
+        transform: scaleX(1);
+        animation: none;
+      }
     }
 
     /* ---- Envelope ---- */
@@ -1238,22 +1518,9 @@
       line-height: 1.5;
     }
 
-    #openInvitationBtn {
-      margin-top: 24px;
-      padding: 14px 36px;
-      font-size: 11px;
-      letter-spacing: .22em;
-      box-shadow: 0 6px 24px rgba(212, 175, 55, .22);
-    }
-
     #openInvitationBtn.is-hidden {
       visibility: hidden;
       pointer-events: none;
-    }
-
-    #openInvitationBtn .icon {
-      width: 14px;
-      height: 14px;
     }
 
     .tap-hint {
@@ -1533,8 +1800,8 @@
     ================================================================ */
     .scroll-indicator {
       position: absolute;
-      bottom: 48px;
-      left: 28px;
+      bottom: 30px;
+      left: 24px;
       /* anchored to left edge */
       display: flex;
       flex-direction: column;
@@ -2593,6 +2860,12 @@
         <path d="M2 12c2-4 6-4 8 0c2-4 6-4 8 0" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"
           stroke-linejoin="round" fill="none" />
       </symbol>
+      <symbol id="icon-envelope" viewBox="0 0 24 24">
+        <path d="M3 7.5 12 14l9-6.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+          stroke-linejoin="round" />
+        <path d="M4.5 6.5h15A1.5 1.5 0 0 1 21 8v10.5a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 18.5V8a1.5 1.5 0 0 1 1.5-1.5Z"
+          fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
+      </symbol>
     </svg>
 
     <!-- ambient gold-dust particles, sits behind everything inside the frame -->
@@ -2610,44 +2883,64 @@
   ============================================================= -->
     <div id="intro">
 
-      <!-- SCREEN 1 — Loading -->
-      <!-- <div id="loader">
-        <div class="monogram">
-          <span class="monogram-letters">A&nbsp;B</span>
-        </div>
-        <div class="loader-label" id="loaderLabel">Preparing your invitation</div>
-        <div class="loader-track">
-          <div class="loader-fill" id="loaderFill"></div>
-        </div>
-      </div> -->
-      <!-- SCREEN 1 — Loading -->
+      <!-- SCREEN 1 — Invitation Cover -->
       <div id="loader">
-        <div class="loader-ornament-top" aria-hidden="true">
-          <span></span>
-          <svg class="icon" viewBox="0 0 24 24">
-            <use href="#icon-heart" />
-          </svg>
-          <span></span>
+        <div class="cover-petals" aria-hidden="true">
+          <span class="cover-petal"></span>
+          <span class="cover-petal"></span>
+          <span class="cover-petal"></span>
+          <span class="cover-petal"></span>
+          <span class="cover-petal"></span>
+          <span class="cover-petal"></span>
+          <span class="cover-petal"></span>
+          <span class="cover-petal"></span>
+          <span class="cover-confetti"></span>
+          <span class="cover-confetti"></span>
+          <span class="cover-confetti"></span>
+          <span class="cover-confetti"></span>
+          <span class="cover-confetti"></span>
         </div>
 
-        <div class="monogram-stage" aria-hidden="true">
-          <div class="monogram-ring ring-outer"></div>
-          <div class="monogram-ring ring-mid"></div>
-          <span class="orbit-dot dot-1"></span>
-          <span class="orbit-dot dot-2"></span>
-          <div class="monogram">
-            <span class="monogram-glow"></span>
-            <span class="monogram-letters">A&nbsp;B</span>
+        <div class="cover-content">
+          <div class="cover-monogram" aria-hidden="true">
+            <div class="cover-monogram-ring"></div>
+            <span class="cover-monogram-letters" id="coverMonogram">A&nbsp;&amp;&nbsp;B</span>
+          </div>
+
+          <p class="cover-eyebrow cover-reveal" style="--d:0">Together With Our Families</p>
+
+          <div class="cover-divider cover-reveal" style="--d:1" aria-hidden="true">
+            <span></span>
+            <svg viewBox="0 0 24 24">
+              <path d="M12 2l2.4 7.4H22l-6 4.6 2.3 7-6.3-4.6L5.7 21l2.3-7-6-4.6h7.6z" />
+            </svg>
+            <span></span>
+          </div>
+
+          <div class="cover-names cover-reveal" style="--d:2">
+            <span class="cover-name" id="coverBrideName">Archana</span>
+            <span class="cover-weds">Weds</span>
+            <span class="cover-name" id="coverGroomName">Balan</span>
+          </div>
+
+          <p class="cover-message cover-reveal" style="--d:3">With hearts full of joy, we invite you to celebrate the beginning of our forever</p>
+
+          <div class="cover-details cover-reveal" style="--d:4">
+            <p class="cover-date" id="coverDate">13th September 2026</p>
+            <p class="cover-venue" id="coverVenue">G R .V Mahal · Chennai</p>
           </div>
         </div>
 
-        <div class="loader-label-wrap">
-          <div class="loader-label" id="loaderLabel">Preparing your invitation</div>
-          <div class="loader-percent" id="loaderPercent">0%</div>
-        </div>
-
-        <div class="loader-track">
-          <div class="loader-fill" id="loaderFill"></div>
+        <div class="cover-footer">
+          <div class="cover-progress" aria-hidden="true">
+            <div class="loader-fill" id="loaderFill"></div>
+          </div>
+          <button type="button" class="cover-open-btn" id="openInvitationBtn" disabled aria-label="Open invitation">
+            <svg class="icon" viewBox="0 0 24 24">
+              <use href="#icon-envelope" />
+            </svg>
+            <span>Open Invitation</span>
+          </button>
         </div>
       </div>
 
@@ -3030,6 +3323,15 @@
         setText('venueAddress', WEDDING.venueAddress);
         setText('venueDate', WEDDING.displayDate);
         setText('venueTime', WEDDING.displayTime);
+        setText('coverBrideName', WEDDING.brideName);
+        setText('coverGroomName', WEDDING.groomName);
+        setText('coverDate', WEDDING.displayDate);
+        setText('coverVenue', WEDDING.venueName + ' · Chennai');
+        setText('splashDate', shortDate);
+        var coverMonogram = document.getElementById('coverMonogram');
+        if (coverMonogram) {
+          coverMonogram.innerHTML = (WEDDING.brideName.charAt(0) || 'A') + '&nbsp;&amp;&nbsp;' + (WEDDING.groomName.charAt(0) || 'B');
+        }
       }
 
       /* ============================================================
@@ -3171,122 +3473,83 @@
 
       function runLoader(callback) {
         var fill = document.getElementById('loaderFill');
-        var label = document.getElementById('loaderLabel');
-        var percentEl = document.getElementById('loaderPercent');
-        var progress = 0;
-        var duration = REDUCED ? 200 : 2200;
+        var openBtn = document.getElementById('openInvitationBtn');
+        var progressWrap = document.querySelector('.cover-progress');
+        var loaderEl = document.getElementById('loader');
+        var duration = REDUCED ? 200 : 2400;
         var start = performance.now();
+        var opened = false;
 
-        // remove rotating messages — hide the label and percent if present
-        if (label) label.style.display = 'none';
-        if (percentEl) percentEl.style.display = 'none';
+        if (openBtn) {
+          openBtn.disabled = true;
+          openBtn.classList.remove('ready');
+        }
+
+        function activateFromGesture() {
+          if (opened) return;
+          opened = true;
+
+          var audio = document.getElementById('bgMusic');
+          try {
+            if (audio) {
+              if (!audio.getAttribute('src')) audio.setAttribute('src', './bgBgm.mp3');
+              audio.muted = false;
+              audio.volume = 0.5;
+              var p = audio.play();
+              if (p && typeof p.then === 'function') p.catch(function () { });
+            }
+          } catch (e) { }
+
+          if (loaderEl) loaderEl.classList.add('hidden');
+          showSplashThenUnlock();
+          if (callback) callback();
+
+          setTimeout(function () {
+            try {
+              var sc = document.getElementById('scrollArea');
+              if (sc) {
+                sc.scrollTop = 0;
+                if (lenis) lenis.scrollTo(0, { duration: 0 });
+                sc.tabIndex = -1;
+                sc.focus({ preventScroll: true });
+              }
+            } catch (err) { }
+          }, 900);
+        }
+
+        function enableOpenButton() {
+          if (!openBtn) {
+            activateFromGesture();
+            return;
+          }
+
+          openBtn.disabled = false;
+          openBtn.classList.add('ready');
+          if (progressWrap) progressWrap.classList.add('done');
+
+          try { openBtn.focus({ preventScroll: true }); } catch (e) { openBtn.focus(); }
+
+          openBtn.addEventListener('click', activateFromGesture, { once: true });
+          openBtn.addEventListener('keydown', function onKeyDown(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              activateFromGesture();
+            }
+          }, { once: true });
+        }
 
         function tick(now) {
           var elapsed = now - start;
-          progress = Math.min(elapsed / duration, 1);
-          fill.style.width = (progress * 100) + '%';
-          if (percentEl) percentEl.textContent = Math.round(progress * 100) + '%';
+          var progress = Math.min(elapsed / duration, 1);
+          if (fill) fill.style.width = (progress * 100) + '%';
 
           if (progress < 1) {
             requestAnimationFrame(tick);
           } else {
-            var loaderEl = document.getElementById('loader');
-
-            /* After loading completes, show a Tap-to-Open CTA inside the circular monogram
-               Keep the loader visible until the user explicitly taps the circle (accessibility: allow Enter/Space). */
-            var monogramEl = document.querySelector('.monogram');
-            var monogramLetters = document.querySelector('.monogram-letters');
-            var originalMonogram = monogramLetters ? monogramLetters.textContent : '';
-
-            if (monogramEl && monogramLetters) {
-              var initials = (WEDDING.brideName ? WEDDING.brideName.charAt(0) : 'A') + ' ' + (WEDDING.groomName ? WEDDING.groomName.charAt(0) : 'B');
-              monogramLetters.textContent = 'Tap';
-              monogramLetters.style.cursor = 'pointer';
-              monogramEl.style.pointerEvents = 'auto';
-              monogramLetters.style.pointerEvents = 'auto';
-              monogramEl.setAttribute('tabindex', '0');
-              monogramEl.setAttribute('role', 'button');
-              monogramEl.setAttribute('aria-label', 'Open invitation — tap to play music');
-              // focus so keyboard users can activate immediately
-              try { monogramEl.focus({ preventScroll: true }); } catch (e) { monogramEl.focus(); }
-
-              function activateFromGesture() {
-                try { console.log('activateFromGesture triggered'); } catch (e) { }
-                monogramEl.classList.add('activated');
-                var audio = document.getElementById('bgMusic');
-                try {
-                  if (audio) {
-                    if (!audio.getAttribute('src')) audio.setAttribute('src', './bgBgm.mp3');
-                    audio.muted = false;
-                    audio.volume = 0.5;
-                    var p = audio.play();
-                    if (p && typeof p.then === 'function') p.catch(function () { });
-                  }
-                } catch (e) { }
-
-                // restore monogram initials and proceed
-                monogramLetters.textContent = initials;
-                monogramLetters.style.cursor = '';
-                monogramEl.removeAttribute('tabindex');
-                monogramEl.removeAttribute('role');
-                monogramEl.removeEventListener('click', onClick);
-                monogramEl.removeEventListener('keydown', onKeyDown);
-
-                // hide loader and continue to the splash + unlock flow
-                loaderEl.classList.add('hidden');
-                showSplashThenUnlock();
-                if (callback) callback();
-
-                // After the splash animation, keep the view pinned to the hero screen instead of jumping to a later button.
-                setTimeout(function () {
-                  try {
-                    var sc = document.getElementById('scrollArea');
-                    if (sc) {
-                      sc.scrollTop = 0;
-                      if (lenis) {
-                        lenis.scrollTo(0, { duration: 0 });
-                      }
-                      sc.tabIndex = -1;
-                      sc.focus({ preventScroll: true });
-                    }
-                  } catch (err) { }
-                }, 900);
-              }
-
-              function onClick() { activateFromGesture(); }
-              function onKeyDown(e) {
-                // Allow Enter, Space, or Tab to activate the invitation from the monogram.
-                if (e.key === 'Enter' || e.key === ' ' || e.key === 'Tab') {
-                  e.preventDefault();
-                  activateFromGesture();
-
-                  // If user pressed Tab, move focus to the next focusable element after activation
-                  if (e.key === 'Tab') {
-                    setTimeout(function () {
-                      try {
-                        var focusables = Array.prototype.slice.call(document.querySelectorAll('a,button,input,textarea,select,[tabindex]:not([tabindex="-1"])'));
-                        focusables = focusables.filter(function (el) { return !!(el.offsetParent || el === document.body) && !el.disabled; });
-                        var idx = focusables.indexOf(monogramEl);
-                        var next = focusables[(idx + 1) >= 0 ? (idx + 1) : 0];
-                        if (next && typeof next.focus === 'function') next.focus();
-                      } catch (err) { }
-                    }, 900);
-                  }
-                }
-              }
-
-              // Attach click handlers to both the circle and the inner text to ensure clicks register
-              monogramEl.addEventListener('click', onClick, { once: true });
-              monogramLetters.addEventListener('click', onClick, { once: true });
-              monogramEl.addEventListener('keydown', onKeyDown, { once: true });
-            } else {
-              // fallback: continue without explicit monogram tap
-              loaderEl.classList.add('hidden');
-              showSplashThenUnlock();
-              if (callback) callback();
-            }
+            enableOpenButton();
           }
         }
+
         requestAnimationFrame(tick);
       }
 
@@ -3934,9 +4197,6 @@
         initActionButtons();
         initMusicToggle();
         initRipple();
-
-        /* openInvitationBtn listener removed — envelope flow is skipped */
-        /* document.getElementById('openInvitationBtn').addEventListener('click', openInvitation); */
 
         runLoader();
       }
