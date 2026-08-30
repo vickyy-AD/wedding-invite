@@ -1819,6 +1819,11 @@
       filter: none;
     }
 
+    .hero-names .name-line {
+      font-size: clamp(34px, 9vw, 48px);
+      line-height: 1.05;
+    }
+
     .hero .display-xl {
       position: relative;
     }
@@ -2562,10 +2567,17 @@
    ================================================================ */
     .thankyou-screen {
       position: relative;
+      padding-bottom: 70px;
     }
 
     .thankyou-screen .display-xl {
       margin-bottom: 10px;
+    }
+
+    .thankyou-screen .screen-inner {
+      position: relative;
+      z-index: 2;
+      padding-bottom: 52px;
     }
 
     .thankyou-quote {
@@ -2597,6 +2609,26 @@
 
     .thankyou-vignette.active {
       opacity: .85;
+    }
+
+    .thankyou-end-image {
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      transform: translateX(-50%);
+      width: min(90%, 300px);
+      max-width: 300px;
+      opacity: .95;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .thankyou-end-image img {
+      display: block;
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      filter: drop-shadow(0 0 28px rgba(212, 175, 55, .22));
     }
 
     /* ================================================================
@@ -3041,8 +3073,24 @@ as we celebrate our love, our journey, and our promise of forever.</p>
     <div id="scrollArea">
       <div id="scrollContent">
 
+        
         <!-- SCREEN 3 — HERO -->
         <section class="screen hero" id="screen-hero">
+          <div class="cover-petals" aria-hidden="true">
+          <span class="cover-petal"></span>
+          <span class="cover-petal"></span>
+          <span class="cover-petal"></span>
+          <span class="cover-petal"></span>
+          <span class="cover-petal"></span>
+          <span class="cover-petal"></span>
+          <span class="cover-petal"></span>
+          <span class="cover-petal"></span>
+          <span class="cover-confetti"></span>
+          <span class="cover-confetti"></span>
+          <span class="cover-confetti"></span>
+          <span class="cover-confetti"></span>
+          <span class="cover-confetti"></span>
+        </div>
           <div class="screen-inner" style="padding-bottom:100px;">
             <div class="eyebrow reveal-up" data-reveal="hero">WITH LOVE, WE INVITE YOU</div>
             <div class="hero-names" style="margin-top:14px; display:flex; flex-direction:column; align-items:center;">
@@ -3055,11 +3103,7 @@ as we celebrate our love, our journey, and our promise of forever.</p>
             <div class="divider reveal-up" data-reveal="hero"><span></span><svg class="icon" viewBox="0 0 24 24">
                 <use href="#icon-ring" />
               </svg><span></span></div>
-            <div class="eyebrow reveal-up" data-reveal="hero">Wedding Invitation</div>
-            <div class="hero-date-row reveal-up" data-reveal="hero">
-              <span class="date-main" id="weddingDateHero">13th September 2026</span>
-              <span class="date-time" id="weddingTimeHero">7:00 AM</span>
-            </div>
+           <p class="thankyou-quote reveal-up" data-reveal="thanks">From two families to one — we invite you to witness the union of our hearts and be part of the memories we're about to create.</p>
           </div>
 
           <div class="hero-image">
@@ -3083,6 +3127,21 @@ as we celebrate our love, our journey, and our promise of forever.</p>
 
         <!-- SCREEN 4 — GREETING -->
         <section class="screen" id="screen-greeting">
+          <div class="cover-petals" aria-hidden="true">
+          <span class="cover-petal"></span>
+          <span class="cover-petal"></span>
+          <span class="cover-petal"></span>
+          <span class="cover-petal"></span>
+          <span class="cover-petal"></span>
+          <span class="cover-petal"></span>
+          <span class="cover-petal"></span>
+          <span class="cover-petal"></span>
+          <span class="cover-confetti"></span>
+          <span class="cover-confetti"></span>
+          <span class="cover-confetti"></span>
+          <span class="cover-confetti"></span>
+          <span class="cover-confetti"></span>
+        </div>
           <div class="screen-inner reveal-up">
             <div class="glass-card greeting-card">
               <!-- <svg class="icon" viewBox="0 0 24 24" style="width:24px;height:24px;">
@@ -3101,6 +3160,21 @@ as we celebrate our love, our journey, and our promise of forever.</p>
 
         <!-- SCREEN 5 — WEDDING TIMELINE -->
         <section class="screen" id="screen-timeline">
+          <div class="cover-petals" aria-hidden="true">
+          <span class="cover-petal"></span>
+          <span class="cover-petal"></span>
+          <span class="cover-petal"></span>
+          <span class="cover-petal"></span>
+          <span class="cover-petal"></span>
+          <span class="cover-petal"></span>
+          <span class="cover-petal"></span>
+          <span class="cover-petal"></span>
+          <span class="cover-confetti"></span>
+          <span class="cover-confetti"></span>
+          <span class="cover-confetti"></span>
+          <span class="cover-confetti"></span>
+          <span class="cover-confetti"></span>
+        </div>
           <div class="screen-inner">
             <div class="eyebrow">Our Celebration</div>
             <h2 class="display-lg" style="margin-top:6px;">Wedding Timeline</h2>
@@ -3159,6 +3233,21 @@ as we celebrate our love, our journey, and our promise of forever.</p>
 
         <!-- SCREEN 8 — COUNTDOWN -->
         <section class="screen" id="screen-countdown">
+          <div class="cover-petals" aria-hidden="true">
+          <span class="cover-petal"></span>
+          <span class="cover-petal"></span>
+          <span class="cover-petal"></span>
+          <span class="cover-petal"></span>
+          <span class="cover-petal"></span>
+          <span class="cover-petal"></span>
+          <span class="cover-petal"></span>
+          <span class="cover-petal"></span>
+          <span class="cover-confetti"></span>
+          <span class="cover-confetti"></span>
+          <span class="cover-confetti"></span>
+          <span class="cover-confetti"></span>
+          <span class="cover-confetti"></span>
+        </div>
           <div class="screen-inner">
             <div class="eyebrow">Counting The Moments</div>
             <h2 class="display-lg" style="margin-top:6px;">Every second brings us closer to forever<br></h2>
@@ -3183,6 +3272,21 @@ as we celebrate our love, our journey, and our promise of forever.</p>
 
         <!-- SCREEN 10 — MAP -->
         <section class="screen" id="screen-map">
+          <div class="cover-petals" aria-hidden="true">
+          <span class="cover-petal"></span>
+          <span class="cover-petal"></span>
+          <span class="cover-petal"></span>
+          <span class="cover-petal"></span>
+          <span class="cover-petal"></span>
+          <span class="cover-petal"></span>
+          <span class="cover-petal"></span>
+          <span class="cover-petal"></span>
+          <span class="cover-confetti"></span>
+          <span class="cover-confetti"></span>
+          <span class="cover-confetti"></span>
+          <span class="cover-confetti"></span>
+          <span class="cover-confetti"></span>
+        </div>
           <div class="screen-inner reveal-up">
             <div class="eyebrow">We'll See You Here</div>
             <h2 class="display-lg" style="margin:6px 0 18px;">Getting There</h2>
@@ -3209,6 +3313,21 @@ as we celebrate our love, our journey, and our promise of forever.</p>
 
         <!-- SCREEN 11 — CALENDAR -->
         <section class="screen" id="screen-calendar">
+          <div class="cover-petals" aria-hidden="true">
+          <span class="cover-petal"></span>
+          <span class="cover-petal"></span>
+          <span class="cover-petal"></span>
+          <span class="cover-petal"></span>
+          <span class="cover-petal"></span>
+          <span class="cover-petal"></span>
+          <span class="cover-petal"></span>
+          <span class="cover-petal"></span>
+          <span class="cover-confetti"></span>
+          <span class="cover-confetti"></span>
+          <span class="cover-confetti"></span>
+          <span class="cover-confetti"></span>
+          <span class="cover-confetti"></span>
+        </div>
           <div class="screen-inner reveal-up">
             <div class="calendar-icon-wrap"><svg class="icon" viewBox="0 0 24 24">
                 <use href="#icon-calendar" />
@@ -3231,20 +3350,41 @@ as we celebrate our love, our journey, and our promise of forever.</p>
 
         <!-- SCREEN 14 — THANK YOU -->
         <section class="screen thankyou-screen" id="screen-thankyou">
+          <div class="cover-petals" aria-hidden="true">
+          <span class="cover-petal"></span>
+          <span class="cover-petal"></span>
+          <span class="cover-petal"></span>
+          <span class="cover-petal"></span>
+          <span class="cover-petal"></span>
+          <span class="cover-petal"></span>
+          <span class="cover-petal"></span>
+          <span class="cover-petal"></span>
+          <span class="cover-confetti"></span>
+          <span class="cover-confetti"></span>
+          <span class="cover-confetti"></span>
+          <span class="cover-confetti"></span>
+          <span class="cover-confetti"></span>
+        </div>
           <div class="thankyou-vignette" id="thankyouVignette"></div>
           <div class="screen-inner">
             <!-- <svg class="icon" viewBox="0 0 24 24" style="width:30px;height:30px;margin-bottom:10px;">
               <use href="#icon-infinity" />
             </svg> -->
-            <p class="thankyou-quote reveal-up" data-reveal="thanks">Kalyanam Sunday dhaan... marakkama vandhurunga! 😄💛</p>
-            <h2 class="display-xl reveal-up" data-reveal="thanks">Thank You❤️</h2>
+                                   <h2 class="display-xl reveal-up" data-reveal="thanks">Thank You❤️</h2>
+
             <p class="thankyou-quote reveal-up" data-reveal="thanks">“P.S : Balan has officially agreed to laugh at Archana's jokes for the rest of her life. Come watch this act of true love in person.”</p>
-            <div class="thankyou-names reveal-up" data-reveal="thanks" class="cover-name" id="coverBrideName">
+            <p class="thankyou-quote reveal-up" data-reveal="thanks">Kalyanam Sunday dhaan... marakkama vandhurunga! 😄💛</p>
+
+            <!-- <div class="thankyou-names reveal-up" data-reveal="thanks" class="cover-name" id="coverBrideName">
               Archana Devi <svg class="icon" viewBox="0 0 24 24"
                 style="width:16px;height:16px;display:inline;vertical-align:-2px;">
                 <use href="#icon-heart" />
               </svg> Balan
-            </div>
+            </div> -->
+          </div>
+
+          <div class="thankyou-end-image" aria-hidden="true">
+            <img src="./endImage.png" alt="Wedding ending illustration">
           </div>
         </section>
 
@@ -3283,9 +3423,9 @@ as we celebrate our love, our journey, and our promise of forever.</p>
     </button> -->
 
     <!-- Background music starts after the loading screen completes -->
-    <!-- <audio id="bgMusic" loop preload="auto" muted playsinline>
-      <source src="./bgBgm.mp3" type="audio/mp3">
-    </audio> -->
+    <audio id="bgMusic" loop preload="auto" muted playsinline>
+      <source src="./bgsong.mp3" type="audio/mp3">
+    </audio>
     <div id="firecracker-container"></div>
 
   </div><!-- /#frame -->
@@ -3466,7 +3606,7 @@ as we celebrate our love, our journey, and our promise of forever.</p>
         if (src && src.getAttribute('src')) {
           // load the provided source
         } else if (!audio.getAttribute('src')) {
-          audio.setAttribute('src', './bgBgm.mp3');
+          audio.setAttribute('src', './bgsong.mp3');
         }
         try { audio.load(); } catch (e) { /* ignore */ }
 
@@ -3518,7 +3658,7 @@ as we celebrate our love, our journey, and our promise of forever.</p>
           var audio = document.getElementById('bgMusic');
           try {
             if (audio) {
-              if (!audio.getAttribute('src')) audio.setAttribute('src', './bgBgm.mp3');
+              if (!audio.getAttribute('src')) audio.setAttribute('src', './bgsong.mp3');
               audio.muted = false;
               audio.volume = 0.5;
               var p = audio.play();
@@ -4097,7 +4237,7 @@ as we celebrate our love, our journey, and our promise of forever.</p>
           btn.classList.toggle('playing', playing);
           btn.querySelector('use').setAttribute('href', playing ? '#icon-music' : '#icon-music-off');
           if (!audio.getAttribute('src')) {
-            audio.setAttribute('src', './bgBgm.mp3');
+            audio.setAttribute('src', './bgsong.mp3');
             audio.load();
           }
           if (audio.getAttribute('src')) {
