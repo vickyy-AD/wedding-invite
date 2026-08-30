@@ -24,7 +24,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Great+Vibes&family=Poppins:wght@300;400;500;600;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Allura&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Great+Vibes&family=Poppins:wght@300;400;500;600;700&display=swap"
     rel="stylesheet">
 
   <!-- ================================================================
@@ -79,6 +79,7 @@
       --maroon-glow: rgba(107, 31, 58, .35);
       --font-display: 'Cormorant Garamond', serif;
       --font-script: 'Great Vibes', cursive;
+      --font-cover: 'Allura', cursive;
       --font-body: 'Poppins', sans-serif;
       --ease-luxury: cubic-bezier(.22, 1, .36, 1);
       /* --dvh is set by JS to window.innerHeight (actual visible height on mobile).
@@ -721,8 +722,8 @@
 
     @media (max-width: 480px) {
       .cover-monogram {
-        width: min(260px, 72vw);
-        height: min(300px, 84vw);
+        width: min(230px, 62vw);
+        height: min(260px, 72vw);
         border-radius: 48% 52% 50% 50% / 52% 48% 52% 48%;
       }
 
@@ -821,9 +822,11 @@
     }
 
     .cover-name {
-      font-family: var(--font-script);
-      font-size: clamp(44px, 12vw, 56px);
-      line-height: 1.05;
+      display: inline-block;
+      font-family: var(--font-cover);
+      font-size: clamp(52px, 15vw, 68px);
+      line-height: 1.12;
+      white-space: nowrap;
       background: linear-gradient(180deg, var(--maroon-rose) 0%, var(--maroon-soft) 45%, var(--gold) 100%);
       -webkit-background-clip: text;
       background-clip: text;
@@ -1543,6 +1546,7 @@
       font-family: var(--font-script);
       font-size: clamp(44px, 13vw, 54px);
       line-height: 1.05;
+      white-space: nowrap;
       color: var(--text);
       font-weight: 400;
       margin: 0 0 16px;
@@ -1803,8 +1807,16 @@
     }
 
     .hero-names .name-line {
+      display: block;
       font-family: var(--font-display);
       font-weight: 500;
+      letter-spacing: .01em;
+      white-space: nowrap;
+      color: var(--gold);
+      background: none;
+      -webkit-background-clip: unset;
+      background-clip: unset;
+      filter: none;
     }
 
     .hero .display-xl {
@@ -2567,7 +2579,7 @@
     }
 
     .thankyou-names {
-      font-family: var(--font-display);
+      font-family: var(--font-script);
       font-size: 22px;
       letter-spacing: .04em;
       margin-top: 6px;
@@ -2948,7 +2960,7 @@
             <img class="cover-monogram-image" src="./1.jpeg" alt="Archana and Balan" loading="eager">
           </div>
 
-          <p class="cover-eyebrow cover-reveal" style="--d:0">Together With Our Families</p>
+          <p class="cover-eyebrow cover-reveal" style="--d:0">Together With Our Beloved Families</p>
 
           <div class="cover-divider cover-reveal" style="--d:1" aria-hidden="true">
             <span></span>
@@ -2964,7 +2976,8 @@
             <span class="cover-name" id="coverGroomName">Balan</span>
           </div>
 
-          <p class="cover-message cover-reveal" style="--d:3">With hearts full of joy, we invite you to celebrate the beginning of our forever</p>
+          <p class="cover-message cover-reveal" style="--d:3">Invite you to be part of our special day
+as we celebrate our love, our journey, and our promise of forever.</p>
 
           <div class="cover-details cover-reveal" style="--d:4">
             <!-- <p class="cover-date" id="coverDate">12th & 13th September 2026</p> -->
@@ -2998,8 +3011,12 @@
             <svg class="splash-heart icon" viewBox="0 0 24 24" style="width:28px;height:28px;margin-bottom:14px;">
               <use href="#icon-heart" />
             </svg>
-            <div class="eyebrow" style="margin-bottom:16px;">With The Blessings Of Our Families</div>
-            <h1 class="invite-names" id="envelopeNames">Archana &amp; Balan</h1>
+            <div class="eyebrow" style="margin-bottom:16px;">With The Blessings Of Our Beloved Families</div>
+            <h1 class="cover-name" id="coverBrideName" >Archana </h1>
+             <h1 class="cover-name" id="coverGroomName" >  &</h1>
+           
+            <h1 class="cover-name" id="coverGroomName" >Balan</h1>
+
             <div class="splash-divider">
               <span></span>
               <svg viewBox="0 0 24 24" style="width:10px;height:10px;fill:var(--gold);flex-shrink:0;">
@@ -3029,7 +3046,7 @@
           <div class="screen-inner" style="padding-bottom:100px;">
             <div class="eyebrow reveal-up" data-reveal="hero">WITH LOVE, WE INVITE YOU</div>
             <div class="hero-names" style="margin-top:14px; display:flex; flex-direction:column; align-items:center;">
-              <span class="display-xl name-line" id="brideNameHero">Archana</span>
+              <span class="display-xl name-line" id="brideNameHero">Archana Devi</span>
               <svg class="icon hero-heart" viewBox="0 0 24 24">
                 <use href="#icon-heart" />
               </svg>
@@ -3143,7 +3160,7 @@
         <section class="screen" id="screen-countdown">
           <div class="screen-inner">
             <div class="eyebrow">Counting The Moments</div>
-            <h2 class="display-lg" style="margin-top:6px;">Until Our Big Day<br></h2>
+            <h2 class="display-lg" style="margin-top:6px;">Every second brings us closer to forever<br></h2>
             <div class="countdown-grid">
               <div class="glass-card countdown-card reveal-up" data-reveal="countdown"><span class="num"
                   id="cdDays">00</span><span class="lbl">Days</span></div>
@@ -3179,7 +3196,7 @@
                 <span class="pin-ring"></span>
               </div> -->
             </div>
-            <p class="body-text" style="margin-top:14px;">Tap below to find your way to our celebration.</p>
+            <p class="body-text" style="margin-top:14px;">Parking might be tighter than the family group chat during muhurtham planning</p>
             <button class="btn btn-gold" id="openMapsBtn" style="margin-top:14px;width:100%;">
               <svg class="icon" viewBox="0 0 24 24">
                 <use href="#icon-location" />
@@ -3197,8 +3214,7 @@
               </svg></div>
             <div class="eyebrow">Mark Your Calendar</div>
             <h2 class="display-lg" style="margin:6px 0 10px;">Save Our Date</h2>
-            <p class="body-text">Add our special day to your calendar,
-              and let’s celebrate together.</p>
+            <p class="body-text">Timing decided by the stars, the priest, and absolutely nobody's convenience. See you bright and early!</p>
             <button class="btn btn-gold" id="addToCalendarBtn" style="margin-top:18px;width:100%;">
               <svg class="icon" viewBox="0 0 24 24">
                 <use href="#icon-calendar" />
@@ -3220,9 +3236,9 @@
               <use href="#icon-infinity" />
             </svg> -->
             <h2 class="display-xl reveal-up" data-reveal="thanks">Thank You❤️</h2>
-            <p class="thankyou-quote reveal-up" data-reveal="thanks">“Your presence means the world to us.”</p>
+            <p class="thankyou-quote reveal-up" data-reveal="thanks">“P.S : Balan has officially agreed to laugh at Archana's jokes for the rest of her life. Come watch this act of true love in person.”</p>
             <div class="thankyou-names reveal-up" data-reveal="thanks">
-              Archana <svg class="icon" viewBox="0 0 24 24"
+              Archana Devi <svg class="icon" viewBox="0 0 24 24"
                 style="width:16px;height:16px;display:inline;vertical-align:-2px;">
                 <use href="#icon-heart" />
               </svg> Balan
@@ -3265,9 +3281,9 @@
     </button> -->
 
     <!-- Background music starts after the loading screen completes -->
-    <audio id="bgMusic" loop preload="auto" muted playsinline>
+    <!-- <audio id="bgMusic" loop preload="auto" muted playsinline>
       <source src="./bgBgm.mp3" type="audio/mp3">
-    </audio>
+    </audio> -->
     <div id="firecracker-container"></div>
 
   </div><!-- /#frame -->
@@ -3287,7 +3303,7 @@
          0. CONFIG — edit every detail of the invitation right here
       ============================================================= */
       var WEDDING = {
-        brideName: 'Archana',
+        brideName: 'Archana Devi',
         groomName: 'Balan',
         // marriage start used for countdown (Sep 13, 2026 at 07:30)
         weddingDateTime: '2026-09-13T07:30:00',
