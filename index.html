@@ -2579,8 +2579,8 @@
     }
 
     .thankyou-names {
-      font-family: var(--font-script);
-      font-size: 22px;
+      font-family: 'Allura', cursive;
+      font-size: 26px;
       letter-spacing: .04em;
       margin-top: 6px;
     }
@@ -2957,7 +2957,7 @@
         <div class="cover-content">
           <div class="cover-monogram" aria-label="Couple photo">
             <div class="cover-monogram-ring"></div>
-            <img class="cover-monogram-image" src="./1.jpeg" alt="Archana and Balan" loading="eager">
+            <img class="cover-monogram-image" src="./4.jpeg" alt="Archana and Balan" loading="eager">
           </div>
 
           <p class="cover-eyebrow cover-reveal" style="--d:0">Together With Our Beloved Families</p>
@@ -3058,7 +3058,7 @@ as we celebrate our love, our journey, and our promise of forever.</p>
             <div class="eyebrow reveal-up" data-reveal="hero">Wedding Invitation</div>
             <div class="hero-date-row reveal-up" data-reveal="hero">
               <span class="date-main" id="weddingDateHero">13th September 2026</span>
-              <span class="date-time" id="weddingTimeHero">7:00 AM Onwards</span>
+              <span class="date-time" id="weddingTimeHero">7:00 AM</span>
             </div>
           </div>
 
@@ -3085,15 +3085,16 @@ as we celebrate our love, our journey, and our promise of forever.</p>
         <section class="screen" id="screen-greeting">
           <div class="screen-inner reveal-up">
             <div class="glass-card greeting-card">
-              <svg class="icon" viewBox="0 0 24 24" style="width:24px;height:24px;">
+              <!-- <svg class="icon" viewBox="0 0 24 24" style="width:24px;height:24px;">
                 <use href="#icon-heart" />
-              </svg>
-              <div class="eyebrow">FROM OUR HEARTS</div>
+              </svg> -->
+              <div class="eyebrow">FROM OUR HEARTS 💛</div>
               <p class="display-lg">A celebration of<br>our love</p>
-              <p class="body-text">As we begin this beautiful new chapter together,
-                we warmly invite you to share in our joy.
-                Your presence, love and blessings would mean
-                the world to us on this special day.</p>
+              <p class="body-text">Blessed by our families, approved by both moms (the hardest audition we've ever passed)</p>
+                           <p class="display-lg">💞</p>
+
+              <p class="body-text">Two families are about to become one big WhatsApp group.</p>
+
             </div>
           </div>
         </section>
@@ -3112,14 +3113,14 @@ as we celebrate our love, our journey, and our promise of forever.</p>
             <div class="timeline-item reveal-up" data-reveal="timeline"><span class="dot"></span>
               <div>
                 <div class="ev-title">Reception</div>
-                <div class="ev-meta">September 12 · 7:00 PM onwards</div>
+                <div class="ev-meta">September 12 · 7:00 PM </div>
               </div>
             </div>
 
             <div class="timeline-item reveal-up" data-reveal="timeline"><span class="dot"></span>
               <div>
                 <div class="ev-title">Marriage Ceremony</div>
-                <div class="ev-meta">September 13 · 7:30 AM onwards</div>
+                <div class="ev-meta">September 13 · 7:30 AM </div>
               </div>
             </div>
           </div>
@@ -3130,7 +3131,7 @@ as we celebrate our love, our journey, and our promise of forever.</p>
         </section>
 
         <!-- SCREEN 6 — COUPLE GALLERY -->
-        <section class="screen" id="screen-gallery">
+        <!-- <section class="screen" id="screen-gallery">
           <div class="screen-inner">
             <div class="eyebrow">Captured Moments</div>
             <h2 class="display-lg" style="margin-top:6px;">Our Gallery</h2>
@@ -3152,7 +3153,7 @@ as we celebrate our love, our journey, and our promise of forever.</p>
               <img data-src="./4.jpeg" alt="Couple photo 4" loading="lazy">
             </div>
           </div>
-        </section>
+        </section> -->
 
 
 
@@ -3235,9 +3236,10 @@ as we celebrate our love, our journey, and our promise of forever.</p>
             <!-- <svg class="icon" viewBox="0 0 24 24" style="width:30px;height:30px;margin-bottom:10px;">
               <use href="#icon-infinity" />
             </svg> -->
+            <p class="thankyou-quote reveal-up" data-reveal="thanks">Kalyanam Sunday dhaan... marakkama vandhurunga! 😄💛</p>
             <h2 class="display-xl reveal-up" data-reveal="thanks">Thank You❤️</h2>
             <p class="thankyou-quote reveal-up" data-reveal="thanks">“P.S : Balan has officially agreed to laugh at Archana's jokes for the rest of her life. Come watch this act of true love in person.”</p>
-            <div class="thankyou-names reveal-up" data-reveal="thanks">
+            <div class="thankyou-names reveal-up" data-reveal="thanks" class="cover-name" id="coverBrideName">
               Archana Devi <svg class="icon" viewBox="0 0 24 24"
                 style="width:16px;height:16px;display:inline;vertical-align:-2px;">
                 <use href="#icon-heart" />
@@ -4150,14 +4152,14 @@ as we celebrate our love, our journey, and our promise of forever.</p>
       // Open calendar composer (Google Calendar web intent). This avoids downloading an .ics file
       function openCalendarEvent() {
         try {
-          // Build an all-day reminder on Sep 11 for the year of the wedding
+          // Reminder should land on Sep 12; the event text still describes engagement on Sep 12 and marriage on Sep 13
           var year = new Date(WEDDING.weddingDateTime).getFullYear();
           function pad(n) { return String(n).padStart(2, '0'); }
-          var remStart = String(year) + pad(9) + pad(11); // YYYY0911
-          var remEnd = String(year) + pad(9) + pad(12); // YYYY0912 (end exclusive)
+          var remStart = String(year) + pad(9) + pad(12); // YYYY0912
+          var remEnd = String(year) + pad(9) + pad(13); // YYYY0913 (end exclusive)
 
-          var title = encodeURIComponent(WEDDING.brideName + ' - ' + WEDDING.groomName + ': Engagement Sep12, Marriage Sep13');
-          var details = encodeURIComponent('Archana - Balan — Engagement: Sep 12. Marriage: Sep 13.');
+          var title = encodeURIComponent(WEDDING.brideName + ' - ' + WEDDING.groomName + ': Engagement Sep 12, Marriage Sep 13');
+          var details = encodeURIComponent(WEDDING.brideName + ' - ' + WEDDING.groomName + ' — Engagement: Sep 12. Marriage: Sep 13.');
           var location = encodeURIComponent(WEDDING.venueMapsLink || WEDDING.venueAddress || WEDDING.venueName || '');
 
           var url = 'https://www.google.com/calendar/render?action=TEMPLATE&text=' + title + '&dates=' + remStart + '/' + remEnd + '&details=' + details + '&location=' + location + '&sf=true&output=xml';
